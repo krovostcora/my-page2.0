@@ -1,0 +1,134 @@
+---
+/**
+ * WORK JOURNEY
+ *
+ * ЯК ДОДАТИ/ЗМІНИТИ РОБОТУ:
+ * Редагуй масив `jobs` нижче.
+ * Фото кидай у public/ і вказуй шлях у полі `images`.
+ */
+import Layout from '../layouts/Layout.astro';
+
+const jobs = [
+    {
+        title: 'The First Step: Vodafone Promoter',
+        text: `It was my first job! 
+        
+        At the time, it was the only option I could find due to my age. My main task was to strike up conversations with people about mobile operators and try to convince them to switch to Vodafone.
+
+        Thanks to this experience, I became less shy and more communicative. Additionally, I met someone who remains a close friend of mine to this day!`,
+        images: ['/jobs/Vodafone_dithered.png', '/jobs/Vodafone2_dithered.png'],
+        layout: 'text-right', // text-right або text-full
+    },
+    {
+        title: 'The Coffee Era: Barista',
+        text: `Thanks to a girl I met at my previous job, I found this place! This is how my love for coffee grew and became stronger.
+        
+Since I was still in school, I mostly worked weekends (and sometimes Fridays). It was a genuinely cool time; there weren't many customers, so I had plenty of free time. I remember reading books there, studying world capitals for geography, or learning poems by heart for literature classes.
+
+Another perk was getting two free coffees per day, which gave me space to experiment. That’s how I found out that mixing milk with cola or juice is definitely not the best idea.
+
+Sadly, in 2020, I had to stop working due to the pandemic. When I wanted to return, the owner had changed, and they refused to take me back. Well, I think that’s why that coffee shop closed down soon after! As you can see in the last photo, I got so used to having a coffee machine that I eventually bought one for personal use.`,
+        images: ['/jobs/Directors_dithered.png', '/jobs/Directors2_dithered.png', '/jobs/Directors3_dithered.png'],
+        layout: 'images-bottom',
+    },
+    {
+        title: 'The Office Life: BlaBlaCar Support',
+        text: `My experience of having an office job! It was a messy time in my life, for sure. I was about to graduate from school and was supposed to be preparing for my final exams (ZNO). But... that wasn't exactly the case.
+        
+Back then, I was also doing debates, taking my first trips via Ukrainian Railways, and actively studying Polish since I was planning to get my degree there. But let’s get back to the job!
+
+First, I had some training. Later, I remember working on the same floor as the Busfor support team and overhearing their calls. I don’t want to go into too much detail, but at some point, I started feeling like a robot. There were just too many things going on at once. It was a cool place, but I wanted to have a fun summer and already had some savings for it. So, I decided to quit.`,
+        images: ['/jobs/BlaBlaCar_dithered.png'],
+        layout: 'text-right',
+    },
+    {
+        title: 'The Tough Chapter: Barista & All-rounder',
+        text: `I found this job during a bit of a depressive period. While I was working there, the war in Ukraine started. The owner was terrible, and so were the other employees.
+        
+To sum it up: working there was as bad as the previous coffee shop was good. It was much harder because I wasn’t just a barista—I was also the croissant maker, the cleaner, and the waitress.
+
+Also, we sold cakes there. If a cake fell, it could cost me my entire daily salary. Sometimes, I ended up working the whole day for nothing.`,
+        images: ['/jobs/BadPlace3_dithered.png', '/jobs/BadPlace2_dithered.png', '/jobs/BadPlace_dithered.png'],
+        layout: 'images-bottom',
+    }
+];
+---
+<Layout title="Work Journey" activePage="Work Journey">
+    <div class="px-4 py-10 sm:px-6 md:px-10 lg:px-16 xl:px-48">
+
+
+    <!-- Intro -->
+    <div class="flex justify-center mb-7" data-anim>
+      <p class="text-base leading-6 max-w-[880px] font-light">
+          Even though my goal is to work in Computer Science, I have tried many different roles along the way. <br><br>I believe this experience has highly influenced me as a person, and in the following sections, I’ll explain how!
+      </p>
+    </div>
+
+    <!-- Jobs list -->
+      <div class="max-w-[880px] mx-auto flex flex-col gap-[20px]">
+      {jobs.map((job, index) => (
+        <div data-job-item>
+          <!-- Divider -->
+            <div class="h-[3px] bg-[#EBEBEB] rounded-full my-8 opacity-80 " />
+            {/* Title */}
+            <div class="flex-shrink-0 w-full mb-6">
+                <h2 class="text-xl font-bold tracking-widest">{job.title}</h2>
+            </div>
+
+          <!-- Job entry -->
+          <div class={`flex gap-6 py-2 ${job.layout === 'text-right' ? 'flex-row' : 'flex-col'}`}>
+
+            {/* Content */}
+              <!-- img on right -->
+            <div class="flex-1">
+              {job.layout === 'text-right' ? (
+                <div class="flex gap-4 items-center">
+                   <div class="flex flex-col gap-3">
+                      {job.text
+                        .trim()
+                        .split(/\n\s*\n/)
+                        .map((p) => p.trim())
+                        .filter(Boolean)
+                        .map((paragraph) => (
+                          <p class="text-base leading-6 indent-8">{paragraph}</p>
+                        ))}
+                    </div>
+                  {job.images.length > 0 && (
+                    <img
+                      src={job.images[0]}
+                      alt={job.title}
+                      class="w-72 h-56 object-cover rounded-xl shadow-md"
+                    />
+                  )}
+                </div>
+              ) : (
+                  <!-- imgs down -->
+                <div>
+                  <div class="flex flex-col gap-3">
+                    {job.text
+                      .trim()
+                      .split(/\n\s*\n/)
+                      .map((p) => p.trim())
+                      .filter(Boolean)
+                      .map((paragraph) => (
+                        <p class="text-base leading-6 indent-[30px]">{paragraph}</p>
+                      ))}
+                  </div>
+                {job.images.length > 0 && (
+                    <div class="flex gap-10 mt-5 justify-between">
+                      {job.images.map((img) => (
+                        <img src={img} alt={job.title} class="flex h-60 object-cover rounded-xl shadow-md" />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+
+    </div>
+
+  </div>
+</Layout>

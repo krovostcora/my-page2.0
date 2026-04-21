@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'KyivTypeSans';
+    src: url('/fonts/KyivTypeSans-Thin-.woff2') format('opentype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KyivTypeSans';
+    src: url('/fonts/KyivTypeSans-Regular-.woff2') format('opentype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KyivTypeSans';
+    src: url('/fonts/KyivTypeSans-Bold-.woff2') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}

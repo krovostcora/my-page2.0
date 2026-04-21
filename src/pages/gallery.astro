@@ -1,0 +1,124 @@
+---
+/**
+    * ART GALLERY — Updated with Professional Reveal Animation
+    */
+import Layout from '../layouts/Layout.astro';
+
+const images = import.meta.glob('/public/gallery/*.{jpg,jpeg,png,webp}');
+const imageList = Object.keys(images).map(path => ({
+    src: path.replace('/public', ''),
+    name: path.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '',
+}));
+
+const hasImages = imageList.length > 0;
+const placeholders = Array(9).fill(null);
+---
+
+<Layout title="Art Gallery — Anna" activePage="Art Gallery">
+    <div class="px-48 py-16">
+
+        <div class="flex justify-center mb-[60px]" data-anim-header>
+            <p class="text-lg leading-[26px] max-w-[846px] font-light text-center">
+                I was painting with gouache when I was going to art classes after school in my 1st grade.
+                But finished doing that in second grade. But! When I was in 7th grade — boring geography
+                classes prompted me to start again. So, I became a bit artsy.
+                <br /><br />
+                Even though I don't think about myself as a great artist — I still like the idea of sharing
+                my art with the world! That's why I decided to create this page.
+                Usually, I prefer to paint with acrylics, but sometimes can do some experiments.
+            </p>
+        </div>
+
+        <div class="columns-2 md:columns-3 gap-7">
+            {hasImages ? (
+                imageList.map((img) => (
+                        <div class="break-inside-avoid mb-7 group cursor-pointer reveal-item" data-gallery-item>
+                            <div class="relative overflow-hidden rounded-[10px] shadow-md border border-gray-100">
+                                <img
+                                        src={img.src}
+                                        alt={img.name}
+                                        loading="lazy"
+                                        class="w-full block rounded-[10px] transition-transform duration-700 ease-out group-hover:scale-105"
+                                />
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 rounded-[10px] flex items-end p-4">
+                <span class="text-white text-[10px] tracking-widest uppercase bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {img.name}
+                </span>
+                                </div>
+                            </div>
+                        </div>
+                ))
+            ) : (
+                placeholders.map((_, i) => (
+                        <div class="break-inside-avoid mb-7 reveal-item" data-gallery-item>
+                            <div
+                                    class="rounded-[10px] bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center"
+                                    style={`height: ${150 + (i % 4) * 60}px`}
+                            >
+                                <div class="text-center text-gray-400 text-xs p-4">
+                                    <svg class="mx-auto mb-2 opacity-30" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                                        <path d="M21 15l-5-5L5 21"/>
+                                    </svg>
+                                    Кинь .jpg у<br/><code>public/gallery/</code>
+                                </div>
+                            </div>
+                        </div>
+                ))
+            )}
+        </div>
+    </div>
+</Layout>
+
+<style>
+    /* Початковий стан: невидимий та зміщений вниз */
+    [data-gallery-item], [data-anim-header] {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+                opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, opacity;
+    }
+
+    /* Стан після появи */
+    .is-visible {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+</style>
+
+<script>
+    function initScrollReveal() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50px 0px', // активується трохи раніше, ніж картинка торкнеться низу екрана
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            // Фільтруємо лише ті елементи, що перетнули межу
+            const visibleEntries = entries.filter(entry => entry.isIntersecting);
+
+            visibleEntries.forEach((entry, index) => {
+                const target = entry.target as HTMLElement;
+
+                // Додаємо невелику затримку, якщо кілька картинок з'явилися одночасно (stagger)
+                setTimeout(() => {
+                    target.classList.add('is-visible');
+                }, index * 100);
+
+                observer.unobserve(target);
+            });
+        }, observerOptions);
+
+        // Спостерігаємо за хедером та кожним елементом галереї
+        const elementsToAnimate = document.querySelectorAll('[data-gallery-item], [data-anim-header]');
+        elementsToAnimate.forEach(el => observer.observe(el));
+    }
+
+    // Запуск при завантаженні та при зміні сторінок (для Astro SPA/View Transitions)
+    document.addEventListener('DOMContentLoaded', initScrollReveal);
+    document.addEventListener('astro:after-swap', initScrollReveal);
+</script>
