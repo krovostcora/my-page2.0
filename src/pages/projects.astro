@@ -46,13 +46,13 @@ const allTags = ['all', ...new Set(projects.flatMap(p => p.tags))];
 <Layout title="Projects — Anna" activePage="Projects">
   <div class="px-48 py-16">
 
-    <!-- Filter bar -->
-    <div class="flex items-center gap-3 mb-10 justify-end" data-anim>
-      <span class="text-xl font-bold text-[#1A1A1A]">Filters</span>
-      <svg width="14" height="11" viewBox="0 0 14 11" fill="#1A1A1A">
-        <path d="M0 0l7 11 7-11z"/>
-      </svg>
-    </div>
+      <!-- Filter bar -->
+      <div class="flex items-center gap-3 mb-10 justify-end" data-anim>
+          <span class="text-xl font-bold text-[#1A1A1A] dark:text-white">Filters</span>
+          <svg width="14" height="11" viewBox="0 0 14 11" class="fill-[#1A1A1A] dark:fill-white">
+              <path d="M0 0l7 11 7-11z"/>
+          </svg>
+      </div>
 
     <!-- Tag filters (Alpine.js driven) -->
     <div
