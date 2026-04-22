@@ -66,7 +66,7 @@ npm run dev
 ```js
 export default defineConfig({
   site: 'https://YOUR_USERNAME.github.io',
-  base: '/anna-portfolio', // назва репозиторію
+  base: '/my-page2.0', // назва репозиторію
   integrations: [tailwind()],
 });
 ```

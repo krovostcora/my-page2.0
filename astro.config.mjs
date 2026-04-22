@@ -3,9 +3,9 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   integrations: [tailwind()],
-  site: 'https://krovostcora.github.io/anna-portfolio',
-  base: '/anna-portfolio',
-  build: {
-    assets: 'assets'
-  }
+  site: 'https://krovostcora.github.io',
+  base: '/my-page2.0',
+    // build: {
+    //     assets: 'assets'
+    // }
 });

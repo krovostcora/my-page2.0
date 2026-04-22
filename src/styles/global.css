@@ -1,17 +1,13 @@
-
-
 @font-face {
     font-family: 'KyivTypeSans';
-    src: url('/fonts/KyivTypeSans-Regular-.woff2') format('opentype');
+    src: url('/my-page2.0/fonts/KyivTypeSans-Regular-.woff2') format('opentype');
     font-weight: 400; /* Зміни 100 на 400 для Regular */
     font-style: normal;
 }
 
-/* ... решта без змін */
-
 @font-face {
     font-family: 'KyivTypeSans';
-    src: url('/fonts/KyivTypeSans-Bold-.woff2') format('opentype');
+    src: url('/my-page2.0/fonts/KyivTypeSans-Bold-.woff2') format('opentype');
     font-weight: 700;
     font-style: normal;
 }

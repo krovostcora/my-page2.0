@@ -9,13 +9,11 @@ interface Props {
     activePage?: string;
 }
 const { title = "My Portfolio", activePage = "" } = Astro.props;
-const baseUrl = import.meta.env.BASE_URL;
-const withBase = (path: string) => `${baseUrl}${path.replace(/^\//, '')}`;
 
 const navLinks = [
-    { href: withBase('/projects'), label: 'Projects' },
-    { href: withBase('/work-journey'), label: 'Work Journey' },
-    { href: withBase('/gallery'), label: 'Art Gallery' },
+    { href: '/my-page2.0/projects', label: 'Projects' },
+    { href: '/my-page2.0/work-journey', label: 'Work Journey' },
+    { href: '/my-page2.0/gallery', label: 'Art Gallery' },
 ];
 ---
 <!DOCTYPE html>
@@ -40,7 +38,7 @@ const navLinks = [
 <nav id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-dark h-16 flex items-center transition-transform duration-300">
     <div class="flex items-center justify-between w-full px-6 md:px-12">
 
-        <a href={baseUrl} class="w-10 h-10 flex-shrink-0 hover:opacity-80 transition-opacity">
+        <a href="/" class="w-10 h-10 flex-shrink-0 hover:opacity-80 transition-opacity">
             <Logo class="w-full h-full text-white" />
         </a>
 
@@ -88,7 +86,7 @@ const navLinks = [
     </button>
 
     <nav class="flex flex-col items-center gap-8">
-        <a href={baseUrl} class="mobile-link text-4xl font-bold uppercase tracking-tighter text-black dark:text-white">Home</a>
+        <a href="/" class="mobile-link text-4xl font-bold uppercase tracking-tighter text-black dark:text-white">Home</a>
         {navLinks.map(link => (
                 <a
                         href={link.href}
