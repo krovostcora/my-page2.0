@@ -11,9 +11,9 @@ interface Props {
 const { title = "My Portfolio", activePage = "" } = Astro.props;
 
 const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Work Journey', href: '/work-journey' },
-    { name: 'Art Gallery', href: '/gallery' },
+    { href: '/projects', label: 'Projects' },
+    { href: '/work-journey', label: 'Work Journey' },
+    { href: '/gallery', label: 'Art Gallery' },
 ];
 ---
 <!DOCTYPE html>
@@ -33,79 +33,76 @@ const navLinks = [
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" is:inline></script>
 </head>
 
-<body class="selection:bg-zinc-200 dark:selection:bg-zinc-800 transition-colors duration-300 bg-white dark:bg-zinc-900">
+<body class="font-sans">
 
-<header
-        id="main-header"
-        class="fixed top-0 left-0 w-full z-[60] px-6 md:px-12 py-5 flex justify-between items-center transition-colors duration-300 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border-b border-zinc-100 dark:border-zinc-800"
->
-    <div class="flex-shrink-0">
-        <a href="/" class="block hover:opacity-70 transition-opacity">
-            <Logo />
+<nav id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-dark h-16 flex items-center transition-transform duration-300">
+    <div class="flex items-center justify-between w-full px-6 md:px-12">
+
+        <a href="/" class="w-10 h-10 flex-shrink-0 hover:opacity-80 transition-opacity">
+            <Logo class="w-full h-full text-white" />
         </a>
-    </div>
 
-    <div class="flex items-center gap-4 md:gap-8">
-        <nav class="hidden md:flex gap-8">
-            {navLinks.map(link => (
+        <div class="hidden md:flex font-bold items-center gap-1 bg-nav-bg rounded-2xl p-1.5">
+            {navLinks.map(({ href, label }) => (
                     <a
-                            href={link.href}
-                            class={`text-sm font-medium uppercase tracking-widest transition-colors hover:text-zinc-500 ${activePage === link.name ? 'text-zinc-900 dark:text-white' : 'text-zinc-400'}`}
+                            href={href}
+                            class={`px-4 py-1.5 rounded-xl text-base font-bold transition-colors ${
+                                activePage === label
+                                    ? 'bg-white text-black'
+                                    : 'text-muted hover:text-white'
+                            }`}
                     >
-                        {link.name}
+                        {label}
                     </a>
             ))}
-        </nav>
+        </div>
 
-        <div class="flex items-center gap-2 md:gap-4">
-            <button id="theme-toggle" class="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors text-zinc-900 dark:text-white">
-                <ThemeIcon />
-            </button>
-            <button class="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors text-zinc-900 dark:text-white">
-                <LangIcon />
+        <div class="flex items-center gap-3">
+            <button id="theme-toggle" class="group w-6 h-6 flex items-center justify-center" title="Toggle dark mode">
+                <ThemeIcon class="text-muted group-hover:text-white transition-colors duration-200" />
             </button>
 
-            <button id="mobile-menu-open" class="md:hidden p-2 text-zinc-900 dark:text-white focus:outline-none" aria-label="Open Menu">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <button class="group w-6 h-6 flex items-center justify-center" title="Toggle language">
+                <LangIcon class="text-muted group-hover:text-white transition-colors duration-200" />
+            </button>
+
+            <button id="mobile-menu-open" class="md:hidden w-6 h-6 flex items-center justify-center text-white">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M4 8h16M4 16h16" stroke-linecap="round"/>
                 </svg>
             </button>
         </div>
     </div>
-</header>
+</nav>
 
 <div
         id="mobile-menu"
-        class="fixed inset-0 z-[100] bg-white dark:bg-zinc-950 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-all duration-300"
+        class="fixed inset-0 z-[100] bg-white dark:bg-black flex flex-col items-center justify-center opacity-0 pointer-events-none transition-all duration-300"
 >
-    <button id="mobile-menu-close" class="absolute top-8 right-8 p-4 text-zinc-900 dark:text-white">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <button id="mobile-menu-close" class="absolute top-8 right-8 p-4 text-black dark:text-white">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
         </svg>
     </button>
 
-    <nav class="flex flex-col items-center gap-10">
+    <nav class="flex flex-col items-center gap-8">
+        <a href="/" class="mobile-link text-4xl font-bold uppercase tracking-tighter text-black dark:text-white">Home</a>
         {navLinks.map(link => (
                 <a
                         href={link.href}
-                        class="mobile-link text-2xl font-bold uppercase tracking-tighter text-zinc-900 dark:text-white"
+                        class="mobile-link text-4xl font-bold uppercase tracking-tighter text-black dark:text-white"
                 >
-                    {link.name}
+                    {link.label}
                 </a>
         ))}
     </nav>
 </div>
 
-<main class="pt-24 min-h-screen">
+<main class="pt-16">
     <slot />
 </main>
 
-<footer class="px-6 md:px-12 py-12 border-t border-zinc-100 dark:border-zinc-800/50 text-center md:text-left">
-    <p class="text-xs text-zinc-400 uppercase tracking-[0.2em]">Designed with heart • 2026</p>
-</footer>
-
 <script is:inline>
-    // Швидкий перемикач теми
     document.getElementById('theme-toggle').addEventListener('click', function () {
         var isDark = document.documentElement.classList.toggle('dark');
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
@@ -116,111 +113,55 @@ const navLinks = [
     declare const gsap: any;
     declare const ScrollTrigger: any;
 
-    function initHeaderScroll() {
+    function initLogic() {
+        // Smart Header (Ховається/з'являється)
         const header = document.getElementById('main-header');
-        if (!header) return;
-
         let lastScroll = 0;
-
-        // Логіка Smart Header: приховування при скролі
         window.addEventListener('scroll', () => {
             const currentScroll = window.pageYOffset;
-
             if (currentScroll <= 60) {
                 header.style.transform = 'translateY(0)';
                 return;
             }
-
             if (currentScroll > lastScroll) {
-                // Скрол вниз — ховаємо
                 header.style.transform = 'translateY(-100%)';
             } else {
-                // Скрол вгору — показуємо
                 header.style.transform = 'translateY(0)';
             }
             lastScroll = currentScroll;
         });
-    }
 
-    function initAnimations() {
-        if (typeof gsap === 'undefined') return;
-        gsap.registerPlugin(ScrollTrigger);
-
-        gsap.from('[data-anim]', {
-            y: 30,
-            opacity: 0,
-            duration: 1,
-            ease: 'power3.out',
-        });
-
-        document.querySelectorAll('[data-gallery-item-reveal]').forEach((item) => {
-            gsap.from(item, {
-                scrollTrigger: {
-                    trigger: item,
-                    start: 'top 92%',
-                    toggleActions: 'play none none none'
-                },
-                y: 40,
-                opacity: 0,
-                duration: 0.8,
-                ease: 'power2.out',
+        // GSAP анімації тексту та картинок
+        if (typeof gsap !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.from('[data-anim]', { y: 30, opacity: 0, duration: 1, ease: 'power3.out' });
+            document.querySelectorAll('[data-gallery-item-reveal]').forEach((item) => {
+                gsap.from(item, {
+                    scrollTrigger: { trigger: item, start: 'top 92%', toggleActions: 'play none none none' },
+                    y: 40, opacity: 0, duration: 0.8, ease: 'power2.out'
+                });
             });
-        });
-    }
+        }
 
-    function initMobileMenu() {
+        // Мобільне меню
         const openBtn = document.getElementById('mobile-menu-open');
         const closeBtn = document.getElementById('mobile-menu-close');
         const menu = document.getElementById('mobile-menu');
         const links = document.querySelectorAll('.mobile-link');
 
-        if (!openBtn || !closeBtn || !menu) return;
+        if (openBtn && closeBtn && menu) {
+            const tl = gsap.timeline({ paused: true });
+            tl.to(menu, { opacity: 1, pointerEvents: 'auto', duration: 0.3 });
+            tl.from(links, { y: 20, opacity: 0, stagger: 0.1, duration: 0.3 }, "-=0.2");
 
-        const tl = gsap.timeline({ paused: true });
-
-        tl.to(menu, {
-            opacity: 1,
-            pointerEvents: 'auto',
-            duration: 0.3,
-            ease: 'power2.out'
-        });
-
-        tl.from(links, {
-            y: 40,
-            opacity: 0,
-            stagger: 0.1,
-            duration: 0.4,
-            ease: 'power3.out'
-        }, "-=0.1");
-
-        openBtn.addEventListener('click', () => {
-            tl.play();
-            document.body.style.overflow = 'hidden';
-        });
-
-        closeBtn.addEventListener('click', () => {
-            tl.reverse();
-            document.body.style.overflow = '';
-        });
-
-        links.forEach(link => {
-            link.addEventListener('click', () => {
-                tl.reverse();
-                document.body.style.overflow = '';
-            });
-        });
+            openBtn.onclick = () => { tl.play(); document.body.style.overflow = 'hidden'; };
+            closeBtn.onclick = () => { tl.reverse(); document.body.style.overflow = ''; };
+            links.forEach(l => l.onclick = () => { tl.reverse(); document.body.style.overflow = ''; });
+        }
     }
 
-    // Ініціалізація
-    initHeaderScroll();
-    initAnimations();
-    initMobileMenu();
-
-    document.addEventListener('astro:after-swap', () => {
-        initHeaderScroll();
-        initAnimations();
-        initMobileMenu();
-    });
+    initLogic();
+    document.addEventListener('astro:after-swap', initLogic);
 </script>
 </body>
 </html>
