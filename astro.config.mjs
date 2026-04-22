@@ -3,7 +3,6 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   integrations: [tailwind()],
-  // Розкоментуй для GitHub Pages:
-  // site: 'https://YOUR_USERNAME.github.io',
-  // base: '/anna-portfolio',
+  site: 'https://krovostcora.github.io',
+  base: '/my-page',
 });
