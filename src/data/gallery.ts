@@ -101,7 +101,7 @@ export const galleryItems: GalleryItem[] = [
         title: 'Peach',
         src: '/gallery/Peach.png',
         year: '2021',
-        material: 'Acrylics',
+        material: 'Pencils',
         description: `This was completely random. While in Poland, I bought some colorful pencils and wanted to draw something but had no ideas. \n\nI asked my roommate for a random word, and she said: "Peach."`
     },
     {
