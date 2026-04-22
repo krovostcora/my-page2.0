@@ -1,7 +1,4 @@
 ---
-/**
-    * ART GALLERY — Updated with Professional Reveal Animation
-    */
 import Layout from '../layouts/Layout.astro';
 
 const images = import.meta.glob('/public/gallery/*.{jpg,jpeg,png,webp}');
@@ -11,14 +8,24 @@ const imageList = Object.keys(images).map(path => ({
 }));
 
 const hasImages = imageList.length > 0;
-const placeholders = Array(9).fill(null);
+
+/**
+ * PAINTING DESCRIPTIONS — add text for each artwork here.
+ * Key = filename WITHOUT extension.
+ *
+ * Example:
+ * 'sunset-over-kyiv': 'Acrylic on canvas, 2023. Painted during...',
+ */
+const descriptions: Record<string, string> = {
+    // 'file-name': 'Painting description',
+};
 ---
 
-<Layout title="Art Gallery — Anna" activePage="Art Gallery">
+<Layout title="Art Gallery" activePage="Art Gallery">
     <div class="px-48 py-16">
 
-        <div class="flex justify-center mb-[60px]" data-anim-header>
-            <p class="text-lg leading-[26px] max-w-[846px] font-light text-center">
+        <div class="flex justify-center mb-14" data-anim-header>
+            <p class="text-lg leading-6 max-w-[846px] font-light text-center">
                 I was painting with gouache when I was going to art classes after school in my 1st grade.
                 But finished doing that in second grade. But! When I was in 7th grade — boring geography
                 classes prompted me to start again. So, I became a bit artsy.
@@ -30,49 +37,76 @@ const placeholders = Array(9).fill(null);
         </div>
 
         <div class="columns-2 md:columns-3 gap-7">
-            {hasImages ? (
-                imageList.map((img) => (
-                        <div class="break-inside-avoid mb-7 group cursor-pointer reveal-item" data-gallery-item>
-                            <div class="relative overflow-hidden rounded-[10px] shadow-md border border-gray-100">
-                                <img
-                                        src={img.src}
-                                        alt={img.name}
-                                        loading="lazy"
-                                        class="w-full block rounded-[10px] transition-transform duration-700 ease-out group-hover:scale-105"
-                                />
-                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 rounded-[10px] flex items-end p-4">
-                <span class="text-white text-[10px] tracking-widest uppercase bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {img.name}
-                </span>
-                                </div>
+            {hasImages && imageList.map((img) => (
+                    <div
+                            class="break-inside-avoid mb-7 group cursor-pointer"
+                            data-gallery-item
+                            data-img-src={img.src}
+                            data-img-name={img.name}
+                            data-img-desc={descriptions[img.name] ?? ''}
+                    >
+                        <div class="relative overflow-hidden rounded-[10px] shadow-md hover:shadow-lg transition-shadow duration-300">
+                            <img
+                                    src={img.src}
+                                    alt={img.name}
+                                    loading="lazy"
+                                    class="w-full block rounded-[10px] transition-transform duration-700 ease-out group-hover:scale-105"
+                            />
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 rounded-[10px] flex items-end p-4">
+                            <span class="text-white text-base tracking-widest uppercase bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                {img.name}
+                            </span>
                             </div>
                         </div>
-                ))
-            ) : (
-                placeholders.map((_, i) => (
-                        <div class="break-inside-avoid mb-7 reveal-item" data-gallery-item>
-                            <div
-                                    class="rounded-[10px] bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center"
-                                    style={`height: ${150 + (i % 4) * 60}px`}
-                            >
-                                <div class="text-center text-gray-400 text-xs p-4">
-                                    <svg class="mx-auto mb-2 opacity-30" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                                        <path d="M21 15l-5-5L5 21"/>
-                                    </svg>
-                                    Кинь .jpg у<br/><code>public/gallery/</code>
-                                </div>
-                            </div>
-                        </div>
-                ))
-            )}
+                    </div>
+            ))}
+        </div>
+    </div>
+
+    <div
+            id="gallery-modal"
+            class="fixed inset-0 z-[45] flex items-center justify-center p-6"
+            role="dialog"
+            aria-modal="true"
+            style="opacity:0; pointer-events:none;"
+    >
+        <div id="gallery-overlay" class="absolute inset-0 bg-black/70" aria-hidden="true"></div>
+
+        <div
+                id="gallery-modal-inner"
+                class="modal-inner relative flex rounded-2xl overflow-hidden shadow-2xl max-w-5xl w-full max-h-[88vh]"
+                style="min-height: 380px;"
+        >
+            <div class="modal-img-wrap flex-shrink-0 w-[56%] flex items-center justify-center overflow-hidden">
+                <img
+                        id="modal-img"
+                        src=""
+                        alt=""
+                        class="w-full h-full object-cover"
+                        style="max-height: 88vh;"
+                />
+            </div>
+
+            <div class="modal-content flex-1 flex flex-col p-10 overflow-y-auto">
+                <h2 id="modal-title" class="modal-title text-2xl font-bold tracking-wide leading-tight mb-6 pr-8 capitalize" style="word-break:break-word;"></h2>
+                <p id="modal-desc" class="modal-desc text-base leading-7 font-light"></p>
+            </div>
+
+            <button
+                    id="modal-close"
+                    class="modal-close-btn absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full transition-colors duration-200"
+                    aria-label="Close"
+            >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </button>
         </div>
     </div>
 </Layout>
 
 <style>
-    /* Початковий стан: невидимий та зміщений вниз */
+    /* ── Scroll reveal ── */
     [data-gallery-item], [data-anim-header] {
         opacity: 0;
         transform: translateY(40px);
@@ -81,44 +115,159 @@ const placeholders = Array(9).fill(null);
                 transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         will-change: transform, opacity;
     }
-
-    /* Стан після появи */
     .is-visible {
         opacity: 1 !important;
         transform: translateY(0) !important;
     }
+
+    /* ── Blur main content, keep nav clear ── */
+    main {
+        transition: filter 0.3s ease;
+    }
+    body.modal-open main {
+        filter: blur(5px);
+    }
+    body.modal-open {
+        overflow: hidden;
+    }
+
+    /* ── Modal transitions ── */
+    #gallery-modal {
+        transition: opacity 0.25s ease;
+    }
+    #gallery-modal-inner {
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateY(12px);
+    }
+    #gallery-modal.is-open {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+    #gallery-modal.is-open #gallery-modal-inner {
+        transform: translateY(0);
+    }
+
+    /* ── LIGHT THEME ── */
+    .modal-inner {
+        background-color: #ffffff;
+    }
+    .modal-img-wrap {
+        background-color: #f3f4f6;
+    }
+    .modal-title {
+        color: #000000;
+    }
+    .modal-desc {
+        color: #6b7280;
+    }
+    .modal-close-btn {
+        background-color: #f3f4f6;
+        color: #6b7280;
+    }
+    .modal-close-btn:hover {
+        background-color: #e5e7eb;
+        color: #000000;
+    }
+
+    /* ── DARK THEME ── */
+    html.dark .modal-inner {
+        background-color: #1E1E1E;
+    }
+    html.dark .modal-img-wrap {
+        background-color: #121212;
+    }
+    html.dark .modal-title {
+        color: #ffffff;
+    }
+    html.dark .modal-desc {
+        color: #A0A0A0;
+    }
+    html.dark .modal-close-btn {
+        background-color: #2a2a2a;
+        color: #A0A0A0;
+    }
+    html.dark .modal-close-btn:hover {
+        background-color: #333333;
+        color: #ffffff;
+    }
 </style>
 
 <script>
+    /* ── Scroll reveal ── */
     function initScrollReveal() {
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px 0px -50px 0px', // активується трохи раніше, ніж картинка торкнеться низу екрана
-            threshold: 0.1
-        };
-
         const observer = new IntersectionObserver((entries) => {
-            // Фільтруємо лише ті елементи, що перетнули межу
-            const visibleEntries = entries.filter(entry => entry.isIntersecting);
+            entries
+                .filter(e => e.isIntersecting)
+                .forEach((e, i) => {
+                    setTimeout(() => (e.target as HTMLElement).classList.add('is-visible'), i * 100);
+                    observer.unobserve(e.target);
+                });
+        }, { rootMargin: '0px 0px -50px 0px', threshold: 0.1 });
 
-            visibleEntries.forEach((entry, index) => {
-                const target = entry.target as HTMLElement;
-
-                // Додаємо невелику затримку, якщо кілька картинок з'явилися одночасно (stagger)
-                setTimeout(() => {
-                    target.classList.add('is-visible');
-                }, index * 100);
-
-                observer.unobserve(target);
-            });
-        }, observerOptions);
-
-        // Спостерігаємо за хедером та кожним елементом галереї
-        const elementsToAnimate = document.querySelectorAll('[data-gallery-item], [data-anim-header]');
-        elementsToAnimate.forEach(el => observer.observe(el));
+        document.querySelectorAll('[data-gallery-item], [data-anim-header]')
+            .forEach(el => observer.observe(el));
     }
 
-    // Запуск при завантаженні та при зміні сторінок (для Astro SPA/View Transitions)
-    document.addEventListener('DOMContentLoaded', initScrollReveal);
-    document.addEventListener('astro:after-swap', initScrollReveal);
+    /* ── Lightbox ── */
+    function initLightbox() {
+        const modal      = document.getElementById('gallery-modal')!;
+        const modalInner = document.getElementById('gallery-modal-inner')!;
+        const modalImg   = document.getElementById('modal-img') as HTMLImageElement;
+        const modalTitle = document.getElementById('modal-title')!;
+        const modalDesc  = document.getElementById('modal-desc')!;
+        const closeBtn   = document.getElementById('modal-close')!;
+
+        function openModal(src: string, name: string, desc: string) {
+            modalImg.src           = src;
+            modalImg.alt           = name;
+            modalTitle.textContent = name.replace(/[-_]/g, ' ');
+            modalDesc.textContent  = desc || '';
+            modal.classList.add('is-open');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal() {
+            modal.classList.remove('is-open');
+            document.body.classList.remove('modal-open');
+        }
+
+        // Image click
+        document.querySelectorAll('[data-gallery-item]').forEach(item => {
+            item.addEventListener('click', () => {
+                openModal(
+                    item.getAttribute('data-img-src') ?? '',
+                    item.getAttribute('data-img-name') ?? '',
+                    item.getAttribute('data-img-desc') ?? '',
+                );
+            });
+        });
+
+        // Close button click
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeModal();
+        });
+
+        // Click outside the window — modal covers the whole screen,
+        // so we check if the click target is NOT inside modal-inner
+        modal.addEventListener('click', (e) => {
+            if (!modalInner.contains(e.target as Node)) {
+                closeModal();
+            }
+        });
+
+        // Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initScrollReveal();
+        initLightbox();
+    });
+    document.addEventListener('astro:after-swap', () => {
+        initScrollReveal();
+        initLightbox();
+    });
 </script>
