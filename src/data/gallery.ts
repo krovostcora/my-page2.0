@@ -51,7 +51,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '5',
         title: 'Even Monkey Knows',
-        src: '/gallery/Even Monkey Knows.png',
+        src: '/my-page2.0/gallery/Even Monkey Knows.png',
         year: '2023-2024',
         material: 'Acrylics',
         description: `This was a "one-day painting" born out of boredom. When I brought it to my parents' house, a friend of theirs absolutely loved the message it conveyed. \n\nHe asked to have it, and although my mum was initially hesitant, I convinced her to let it go. My main philosophy regarding my art is that it has to live. I’m happy knowing that someone truly enjoys it, so we gifted it to him for his birthday.`
