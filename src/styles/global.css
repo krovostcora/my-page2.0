@@ -1,16 +1,13 @@
-@font-face {
-    font-family: 'KyivTypeSans';
-    src: url('/fonts/KyivTypeSans-Thin-.woff2') format('opentype');
-    font-weight: 100;
-    font-style: normal;
-}
+
 
 @font-face {
     font-family: 'KyivTypeSans';
     src: url('/fonts/KyivTypeSans-Regular-.woff2') format('opentype');
-    font-weight: 100;
+    font-weight: 400; /* Зміни 100 на 400 для Regular */
     font-style: normal;
 }
+
+/* ... решта без змін */
 
 @font-face {
     font-family: 'KyivTypeSans';
@@ -31,7 +28,7 @@
 
 html.dark {
     --color-bg: rgba(0, 0, 0, 0.86);
-    --color-text: #ffffff;
+    --color-text: #bdbdbd;
     --color-surface: #1E1E1E;
     --color-border: #374151;    /* gray-700 */
     --color-muted: #A0A0A0;

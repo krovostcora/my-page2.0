@@ -94,27 +94,33 @@ const { title = "My Portfolio", activePage = "" } = Astro.props;
 
 <!-- GSAP анімації — звичайний бандлений скрипт, це нормально -->
 <script>
+    declare const gsap: any;
+    declare const ScrollTrigger: any;
+
     function initAnimations() {
         if (typeof gsap === 'undefined') return;
+        gsap.registerPlugin(ScrollTrigger);
 
-        const elements = document.querySelectorAll('[data-anim]');
-        if (elements.length > 0) {
-            gsap.from(elements, {
-                y: 30, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out',
-            });
-        }
-
-        document.querySelectorAll('[data-gallery-item]').forEach((item, i) => {
-            gsap.from(item, {
-                scrollTrigger: { trigger: item, start: 'top 90%' },
-                y: 40, opacity: 0, duration: 0.6, delay: (i % 3) * 0.1, ease: 'power2.out',
-            });
+        // Текст анімуємо як зазвичай
+        gsap.from('[data-anim]', {
+            y: 30,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out',
         });
 
-        document.querySelectorAll('[data-job-item]').forEach((item) => {
+        // КАРТИНКИ: кожна анімується окремо при появі
+        document.querySelectorAll('[data-gallery-item-reveal]').forEach((item) => {
             gsap.from(item, {
-                scrollTrigger: { trigger: item, start: 'top 85%' },
-                x: -20, opacity: 0, duration: 0.5, ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top 92%', // спрацює, коли край картинки покажеться знизу
+                    toggleActions: 'play none none none'
+                },
+                y: 40,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power2.out',
             });
         });
     }

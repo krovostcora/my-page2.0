@@ -1,0 +1,130 @@
+---
+// GalleryModal.astro
+---
+<div
+        id="gallery-modal"
+        class="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 opacity-0 pointer-events-none transition-opacity duration-300"
+        role="dialog"
+        aria-modal="true"
+>
+    <div id="gallery-overlay" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+    <div
+            id="gallery-modal-inner"
+            class="relative flex flex-col md:flex-row bg-white dark:bg-zinc-900 w-full max-w-5xl max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl translate-y-8 transition-transform duration-300"
+    >
+        <button
+                id="modal-close-x"
+                class="absolute top-6 right-6 z-10 w-10 h-10 items-center justify-center rounded-full bg-zinc-100/80 dark:bg-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white transition-colors hidden md:flex backdrop-blur-sm shadow-sm"
+                aria-label="Close"
+        >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+
+        <div class="w-full md:w-auto md:min-w-[40%] md:max-w-[60%] bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-center overflow-hidden border-b md:border-b-0 md:border-r border-zinc-200 dark:border-zinc-700">
+            <img
+                    id="modal-img"
+                    src=""
+                    alt=""
+                    class="w-full h-auto max-h-[50vh] md:max-h-[90vh] object-contain"
+            />
+        </div>
+
+        <div class="flex-1 p-8 md:p-12 flex flex-col overflow-y-auto bg-white dark:bg-zinc-900">
+            <div class="mb-auto">
+                <h2 id="modal-title" class="text-3xl font-bold tracking-tighter text-zinc-900 dark:text-white uppercase mb-2 leading-tight"></h2>
+
+                <div class="flex gap-3 text-xs font-medium text-zinc-400 uppercase tracking-widest mb-6">
+                    <span id="modal-year"></span>
+                    <span>•</span>
+                    <span id="modal-material"></span>
+                </div>
+
+                <div class="h-px w-12 bg-zinc-200 dark:bg-zinc-700 mb-6"></div>
+
+                <div id="modal-desc-container" class="space-y-4 text-base leading-relaxed font-light text-left text-zinc-600 dark:text-zinc-400">
+                </div>
+            </div>
+
+            <button
+                    id="modal-close-btn"
+                    class="md:hidden mt-8 self-start px-6 py-2 border border-zinc-200 dark:border-zinc-700 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all text-sm font-medium text-zinc-700 dark:text-zinc-300 shadow-sm active:scale-95"
+            >
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function initLightbox() {
+        const modal = document.getElementById('gallery-modal');
+        const modalInner = document.getElementById('gallery-modal-inner');
+        const modalImg = document.getElementById('modal-img') as HTMLImageElement;
+        const modalTitle = document.getElementById('modal-title');
+        const modalYear = document.getElementById('modal-year');
+        const modalMaterial = document.getElementById('modal-material');
+        const modalDescContainer = document.getElementById('modal-desc-container');
+
+        const openModal = (src: string, title: string, year: string, material: string, desc: string) => {
+            if (!modal || !modalImg || !modalInner) return;
+
+            modalImg.src = src;
+            if (modalTitle) modalTitle.textContent = title;
+            if (modalYear) modalYear.textContent = year;
+            if (modalMaterial) modalMaterial.textContent = material;
+
+            // Динамічне розбиття на абзаци
+            if (modalDescContainer) {
+                modalDescContainer.innerHTML = '';
+                const paragraphs = desc.split(/\n\s*\n/).filter(p => p.trim() !== '');
+
+                paragraphs.forEach(pText => {
+                    const p = document.createElement('p');
+                    p.className = 'indent-8 whitespace-pre-line';
+                    p.textContent = pText.trim();
+                    modalDescContainer.appendChild(p);
+                });
+            }
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modalInner.classList.remove('translate-y-8');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeModal = () => {
+            if (!modal || !modalInner) return;
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalInner.classList.add('translate-y-8');
+            document.body.style.overflow = '';
+        };
+
+        // Слухаємо кліки на картках
+        document.querySelectorAll('[data-gallery-item]').forEach(item => {
+            item.addEventListener('click', () => {
+                openModal(
+                    item.getAttribute('data-img-src') || '',
+                    item.getAttribute('data-img-name') || '',
+                    item.getAttribute('data-img-year') || '',
+                    item.getAttribute('data-img-material') || '',
+                    item.getAttribute('data-img-desc') || ''
+                );
+            });
+        });
+
+        // Кнопки закриття
+        document.getElementById('modal-close-x')?.addEventListener('click', closeModal);
+        document.getElementById('modal-close-btn')?.addEventListener('click', closeModal);
+        document.getElementById('gallery-overlay')?.addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    }
+
+    // Запуск
+    initLightbox();
+    document.addEventListener('astro:after-swap', initLightbox);
+</script>
