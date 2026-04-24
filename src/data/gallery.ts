@@ -69,7 +69,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '7',
         title: 'Japanese Cats',
-        src: `${BASE_URL}/gallery/Japanese cats.webp`,
+        src: `${BASE_URL}/gallery/Japanese Cats.webp`,
         year: '2025',
         material: 'Acrylics',
         description: `I wanted to paint something special for Darío since he loves Japan. I worked on this piece for over half a year before gifting it to him. \n\nThe coolest part? About six months later, we actually ended up visiting Japan together.`
