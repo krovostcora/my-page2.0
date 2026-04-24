@@ -67,7 +67,7 @@ const navLinks = [
             </button>
 
             <button id="mobile-menu-open" class="md:hidden w-6 h-6 flex items-center justify-center text-white">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path d="M4 8h16M4 16h16" stroke-linecap="round"/>
                 </svg>
             </button>
@@ -80,7 +80,7 @@ const navLinks = [
         class="fixed inset-0 z-[100] bg-white dark:bg-black flex flex-col items-center justify-center opacity-0 pointer-events-none transition-all duration-300"
 >
     <button id="mobile-menu-close" class="absolute top-8 right-8 p-4 text-black dark:text-white">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="32" height="32" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
         </svg>
     </button>
@@ -131,18 +131,6 @@ const navLinks = [
             lastScroll = currentScroll;
         });
 
-        // GSAP анімації тексту та картинок
-        if (typeof gsap !== 'undefined') {
-            gsap.registerPlugin(ScrollTrigger);
-            gsap.from('[data-anim]', { y: 30, opacity: 0, duration: 1, ease: 'power3.out' });
-            document.querySelectorAll('[data-gallery-item-reveal]').forEach((item) => {
-                gsap.from(item, {
-                    scrollTrigger: { trigger: item, start: 'top 92%', toggleActions: 'play none none none' },
-                    y: 40, opacity: 0, duration: 0.8, ease: 'power2.out'
-                });
-            });
-        }
-
         // Мобільне меню
         const openBtn = document.getElementById('mobile-menu-open');
         const closeBtn = document.getElementById('mobile-menu-close');
@@ -156,7 +144,7 @@ const navLinks = [
 
             openBtn.onclick = () => { tl.play(); document.body.style.overflow = 'hidden'; };
             closeBtn.onclick = () => { tl.reverse(); document.body.style.overflow = ''; };
-            links.forEach(l => l.onclick = () => { tl.reverse(); document.body.style.overflow = ''; });
+            // links.forEach(l => l.onclick = () => { tl.reverse(); document.body.style.overflow = ''; });
         }
     }
 
