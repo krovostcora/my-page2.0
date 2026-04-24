@@ -1,0 +1,82 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projects } from '../../data/projects';
+
+export async function getStaticPaths() {
+    return projects.map((project) => ({
+        params: { id: project.id },
+        props: { project },
+    }));
+}
+
+const { project } = Astro.props;
+---
+<Layout title={`${project.title} — Details`} activePage="Projects">
+    <div class="max-w-4xl mx-auto px-6 py-20 dark:text-white">
+        <a href="/my-page2.0/projects" class="text-gray-500 hover:text-black dark:hover:text-white mb-8 inline-block transition-colors font-medium">
+            ← Back to Projects
+        </a>
+
+        <header class="mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">{project.title}</h1>
+            <div class="flex flex-wrap gap-3 mb-10">
+                {project.technologies.map(tech => (
+                        <span class="px-4 py-1.5 bg-gray-100 dark:bg-zinc-800 rounded-full text-sm font-semibold text-gray-700 dark:text-zinc-300">
+            {tech}
+          </span>
+                ))}
+            </div>
+        </header>
+
+        <div class="mb-16">
+            {project.image ? (
+                    <img src={project.image} alt={project.title} class="w-full rounded-3xl shadow-2xl border border-gray-100 dark:border-zinc-800" />
+            ) : (
+                    <div class="w-full aspect-video bg-gray-100 dark:bg-zinc-800 rounded-3xl flex items-center justify-center text-gray-400 font-bold">
+                        No Preview Available
+                    </div>
+            )}
+        </div>
+
+        <section class="mb-20">
+            <h2 class="text-2xl font-bold mb-6 border-b border-gray-100 dark:border-zinc-800 pb-2">About Project</h2>
+            <p class="text-gray-600 dark:text-gray-400 text-lg md:text-xl leading-relaxed">
+                {project.fullDescription}
+            </p>
+        </section>
+
+        <footer class="mt-20 pt-10 border-t border-gray-100 dark:border-zinc-800">
+            <div class="flex flex-col sm:flex-row gap-4 max-w-md">
+                {project.liveUrl && (
+                        <a
+                                href={project.liveUrl}
+                                target="_blank"
+                                class="flex-1 text-center py-3 text-sm font-bold bg-black text-white dark:bg-white dark:text-black rounded-xl hover:opacity-80 transition-all shadow-lg"
+                        >
+                            Live Demo
+                        </a>
+                )}
+
+                {project.githubUrl && (
+                        <a
+                                href={project.githubUrl}
+                                target="_blank"
+                                class="flex-1 text-center py-3 text-sm font-bold border border-gray-200 dark:border-zinc-700 dark:text-white rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors shadow-sm"
+                        >
+                            GitHub {project.githubBackendUrl ? 'Frontend' : ''}
+                        </a>
+                )}
+
+                {project.githubBackendUrl && (
+                        <a
+                                href={project.githubBackendUrl}
+                                target="_blank"
+                                class="flex-1 text-center py-3 text-sm font-bold border border-gray-200 dark:border-zinc-700 dark:text-white rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors shadow-sm"
+                        >
+                            GitHub Backend
+                        </a>
+                )}
+            </div>
+        </footer>
+    </div>
+</Layout>
