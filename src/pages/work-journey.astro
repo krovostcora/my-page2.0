@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { jobs } from '../data/jobs';
+import { projects } from '../data/projects';
 ---
 
 <Layout title="Work Journey" activePage="Work Journey">
@@ -8,7 +9,8 @@ import { jobs } from '../data/jobs';
 
         <div class="flex justify-center mb-16">
             <p class="text-lg leading-relaxed max-w-[880px] font-light text-[var(--color-text)] opacity-80">
-                Even though my goal is to work in Computer Science, I have tried many different roles along the way. <br class="hidden md:block">
+                Even though my goal is to work in Computer Science, I have tried many different roles along the way.
+                <br class="hidden md:block">
                 I believe this experience has highly influenced me as a person, and in the following sections, I’ll explain how!
             </p>
         </div>
@@ -23,27 +25,62 @@ import { jobs } from '../data/jobs';
                         </h2>
 
                         <div class="flex flex-col gap-8">
-                            {/* Контент та зображення */}
+                            {/* Main content area */}
                             <div class={`flex flex-col gap-8 ${job.layout === 'text-right' ? 'md:flex-row' : ''}`}>
                                 <div class="flex-1 flex flex-col gap-4 text-[var(--color-text)] opacity-90">
                                     {job.text.trim().split(/\n\s*\n/).map((p) => (
                                             <p class="text-base leading-relaxed indent-6 md:indent-8 whitespace-pre-line">{p.trim()}</p>
                                     ))}
+
+                                    {/* Project actions aligned to the right */}
+                                    {job.projectLink && (() => {
+                                        const projectId = job.projectLink.split('/').pop();
+                                        const projectData = projects.find(p => p.id === projectId);
+
+                                        return (
+                                                <div class="flex flex-col sm:flex-row gap-3 mt-6 w-full md:max-w-[420px] md:self-end">
+                                                    <a
+                                                            href={job.projectLink}
+                                                            class="flex-1 text-center py-2.5 text-xs font-bold border border-[var(--color-border)] text-[var(--color-text)] rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all uppercase tracking-wider"
+                                                    >
+                                                        Read Details
+                                                    </a>
+
+                                                    {projectData?.liveUrl && (
+                                                            <a
+                                                                    href={projectData.liveUrl}
+                                                                    target="_blank"
+                                                                    class="flex-1 text-center py-2.5 text-xs font-bold bg-black text-white dark:bg-white dark:text-black rounded-lg hover:opacity-80 transition-all uppercase tracking-wider shadow-sm"
+                                                            >
+                                                                Live Demo
+                                                            </a>
+                                                    )}
+                                                </div>
+                                        );
+                                    })()}
                                 </div>
 
-                                {/* Одне зображення для text-right */}
+                                {/* Side image for text-right layout */}
                                 {job.layout === 'text-right' && job.images.length === 1 && (
-                                        <img src={job.images[0]} alt={job.title} class="flex-shrink-0 w-full md:w-72 h-64 md:h-56 object-cover rounded-2xl shadow-sm border border-[var(--color-border)]" />
+                                        <img
+                                                src={job.images[0]}
+                                                alt={job.title}
+                                                class="flex-shrink-0 w-full md:w-72 h-64 md:h-56 object-cover rounded-2xl shadow-sm border border-[var(--color-border)]"
+                                        />
                                 )}
                             </div>
 
-                            {/* Галерея/Карусель */}
+                            {/* Image gallery */}
                             {job.images.length > 1 && (
                                     <div class="relative">
                                         <div class="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-4 md:pb-0">
                                             {job.images.map((img) => (
                                                     <div class="min-w-[85%] md:min-w-0 snap-center">
-                                                        <img src={img} alt={job.title} class="w-full h-64 md:h-60 object-cover rounded-2xl shadow-sm border border-[var(--color-border)]" />
+                                                        <img
+                                                                src={img}
+                                                                alt={job.title}
+                                                                class="w-full h-64 md:h-60 object-cover rounded-2xl shadow-sm border border-[var(--color-border)]"
+                                                        />
                                                     </div>
                                             ))}
                                         </div>

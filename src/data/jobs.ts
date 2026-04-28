@@ -4,6 +4,7 @@ export interface Job {
     text: string;
     images: string[];
     layout: 'text-right' | 'images-bottom';
+    projectLink?: string;
 }
 
 const BASE_URL = '/my-page2.0';
@@ -32,5 +33,18 @@ export const jobs: Job[] = [
         text: `I found this job during a bit of a depressive period. While I was working there, the war in Ukraine started. The owner was terrible, and so were the other employees.\n\nTo sum it up: working there was as bad as the previous coffee shop was good. It was much harder because I wasn’t just a barista—I was also the croissant maker, the cleaner, and the waitress.\n\nAlso, we sold cakes there. If a cake fell, it could cost me my entire daily salary. Sometimes, I ended up working the whole day for nothing.`,
         images: [`${BASE_URL}/jobs/BadPlace3_dithered.webp`, `${BASE_URL}/jobs/BadPlace2_dithered.webp`, `${BASE_URL}/jobs/BadPlace_dithered.webp`],
         layout: 'images-bottom',
+    },
+    {
+        title: 'International Organization for Migration (IOM)',
+        text: `I found this job through my university. When I was about to move to Lithuania for my studies, I received an email about this opportunity. Even though it was based in Vilnius while I was studying in Šiauliai, I decided to apply – and luckily, I got the job!\n\nMy duty was to interview other Ukrainians in Lithuania who had moved after the war started. I asked about their well-being, the difficulties they faced, and how their integration was progressing.\n\nI’m really happy I took this chance. Thanks to this job, I traveled through most of Lithuania and met many incredible people.`,
+        images: [`${BASE_URL}/jobs/IOM_dithered.webp`], // Додай шлях до фото, якщо воно з'явиться
+        layout: 'text-right',
+    },
+    {
+        title: 'Internship at VUŠA: Full Stack Developer',
+        text: `This internship was a compulsory part of my study program. There were five different projects to choose from, and I immediately picked this one because of my passion for web development.\n\nWorking within the Environmental Research Group at the Institute of Regional Development, I helped build tools related to environmental data. The internship was remote and didn't take up too much time, but it was a great practical experience. Plus, I now know significantly more about pollen concentration levels than I ever expected!`,
+        images: [],
+        layout: 'text-right',
+        projectLink: `${BASE_URL}/projects/pollen-meteo`
     }
 ];
