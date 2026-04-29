@@ -1,11 +1,41 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { projects } from '../data/projects';
+import Layout from '../../layouts/Layout.astro';
+import { projects } from '../../data/projects.ts';
 
-// Generate unique tags list
+// 1. Required function for dynamic routes
+export function getStaticPaths() {
+    return [
+        { params: { lang: 'en' } },
+        { params: { lang: 'uk' } },
+        { params: { lang: 'es' } }
+    ];
+}
+
+const { lang = 'en' } = Astro.params;
+const currentLang = (lang as 'en' | 'uk' | 'es') || 'en';
+
+// Helper function to extract text for the current language
+const getT = (field: any) => {
+    if (!field) return "";
+    if (typeof field === 'string') return field;
+    return field[currentLang] || field['en'] || "";
+};
+
 const allTags = ['all', ...new Set(projects.flatMap(p => p.tags))];
+
+// Base URL for linking to project details
+const base = '/my-page2.0';
+
+
+// Page titles translations
+const pageTitles = {
+    en: "Projects — Anna",
+    uk: "Проєкти — Анна",
+    es: "Proyectos — Anna"
+};
 ---
-<Layout title="Projects — Anna" activePage="Projects">
+
+<Layout title={pageTitles[currentLang]} activePage="Projects">
     <div class="max-w-7xl mx-auto px-6 md:px-12 py-10" x-data="{ showFilters: false, active: 'all' }">
 
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
@@ -13,7 +43,9 @@ const allTags = ['all', ...new Set(projects.flatMap(p => p.tags))];
                     @click="showFilters = !showFilters"
                     class="flex items-center gap-3 px-4 py-2 bg-gray-100 dark:bg-zinc-800 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700 transition-all w-full md:w-auto justify-center"
             >
-                <span class="text-sm font-bold dark:text-white">Filters</span>
+                <span class="text-sm font-bold dark:text-white">
+                    {currentLang === 'uk' ? 'Фільтри' : (currentLang === 'es' ? 'Filtros' : 'Filters')}
+                </span>
                 <svg
                         width="14" height="11"
                         viewBox="0 0 14 11"
@@ -30,7 +62,7 @@ const allTags = ['all', ...new Set(projects.flatMap(p => p.tags))];
                 {allTags.map(tag => (
                         <button
                                 @click={`active = '${tag}'`}
-                                :class={`active === '${tag}' ? 'bg-black text-white border-black' : 'bg-white text-black border-gray-200 hover:border-black dark:bg-zinc-800 dark:text-white dark:border-zinc-700'`}
+                                :class={`active === '${tag}' ? 'bg-black  border-black' : 'bg-white border-gray-200 hover:border-black dark:bg-zinc-800 dark:text-white dark:border-zinc-700'`}
                                 class="px-5 py-1.5 rounded-full border text-sm transition-all capitalize font-medium"
                         >
                             {tag}
@@ -52,13 +84,13 @@ const allTags = ['all', ...new Set(projects.flatMap(p => p.tags))];
                             {project.image ? (
                                     <img
                                             src={project.image}
-                                            alt={project.title}
+                                            alt={getT(project.title)}
                                             loading="lazy"
                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                             ) : (
                                     <div class="w-full h-full flex items-center justify-center text-gray-400">
-                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                             <rect x="3" y="3" width="18" height="18" rx="2"/>
                                             <path d="M3 9h18M9 21V9"/>
                                         </svg>
@@ -67,10 +99,10 @@ const allTags = ['all', ...new Set(projects.flatMap(p => p.tags))];
 
                             <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm">
                                 <a
-                                        href={`/my-page2.0/projects/${project.id}`}
+                                        href={`${base}/${lang}/projects/${project.id}`}
                                         class="bg-white text-black px-6 py-2.5 rounded-full font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 hover:bg-gray-100 shadow-lg"
                                 >
-                                    Read more →
+                                    {currentLang === 'uk' ? 'Детальніше' : (currentLang === 'es' ? 'Leer más' : 'Read more')} →
                                 </a>
                             </div>
                         </div>
@@ -83,9 +115,12 @@ const allTags = ['all', ...new Set(projects.flatMap(p => p.tags))];
                                 </span>
                                 ))}
                             </div>
-
-                            <h3 class="font-bold text-xl mb-2 dark:text-white leading-tight">{project.title}</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6 flex-grow">{project.description}</p>
+                            <h3 class="font-bold text-xl mb-2 dark:text-white leading-tight">
+                                {getT(project.title)}
+                            </h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6 flex-grow">
+                                {getT(project.description)}
+                            </p>
 
                             <div class="flex flex-col gap-2 mt-auto">
                                 <div class="flex gap-2">

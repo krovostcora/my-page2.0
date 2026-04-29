@@ -8,23 +8,35 @@ interface Props {
     title?: string;
     activePage?: string;
 }
+
+// 1. Get current language from params
+const { lang = 'en' } = Astro.params;
 const { title = "My Portfolio", activePage = "" } = Astro.props;
 
+const BASE_URL = '/my-page2.0';
+
+// 2. Build dynamic navigation links
+// If language is English, we keep it in the URL (as your structure suggests pages are in [lang])
 const navLinks = [
-    { href: '/my-page2.0/projects', label: 'Projects' },
-    { href: '/my-page2.0/work-journey', label: 'Work Journey' },
-    { href: '/my-page2.0/gallery', label: 'Art Gallery' },
+    { href: `${BASE_URL}/${lang}/projects`, label: 'Projects' },
+    { href: `${BASE_URL}/${lang}/work-journey`, label: 'Work Journey' },
+    { href: `${BASE_URL}/${lang}/gallery`, label: 'Art Gallery' },
+];
+
+const locales = [
+    { code: 'en', label: 'EN' },
+    { code: 'uk', label: 'UA' },
+    { code: 'es', label: 'ES' }
 ];
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang={lang}>
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
 
     <script is:inline>
-        // Check theme immediately to prevent flashing
         const theme = localStorage.getItem('theme');
         if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
@@ -38,7 +50,7 @@ const navLinks = [
 
 <nav id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-dark h-16 flex items-center transition-transform duration-300">
     <div class="flex items-center justify-between w-full px-6 md:px-12">
-        <a href="/my-page2.0/" class="w-10 h-10 flex-shrink-0 hover:opacity-80 transition-opacity">
+        <a href={`${BASE_URL}/${lang}/`} class="w-10 h-10 flex-shrink-0 hover:opacity-80 transition-opacity">
             <Logo class="w-full h-full text-white" />
         </a>
 
@@ -54,9 +66,25 @@ const navLinks = [
             <button id="theme-toggle" class="group w-6 h-6 flex items-center justify-center" title="Toggle dark mode">
                 <ThemeIcon class="text-muted group-hover:text-white transition-colors" />
             </button>
-            <button class="group w-6 h-6 flex items-center justify-center" title="Toggle language">
-                <LangIcon class="text-muted group-hover:text-white transition-colors" />
-            </button>
+
+            <div class="relative group">
+                <button class="group w-6 h-6 flex items-center justify-center" title="Toggle language">
+                    <LangIcon class="text-muted group-hover:text-white transition-colors" />
+                </button>
+                <div class="absolute right-0 mt-0 pt-2 w-20 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all">
+                    <div class="bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-xl overflow-hidden">
+                        {locales.map((loc) => (
+                                <a
+                                        href={`${BASE_URL}/${loc.code}/`}
+                                        class={`block px-4 py-2 text-[10px] font-bold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors ${lang === loc.code ? 'text-blue-500' : 'text-black dark:text-white'}`}
+                                >
+                                    {loc.label}
+                                </a>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
             <button id="mobile-menu-open" class="md:hidden w-6 h-6 flex items-center justify-center text-white">
                 <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 8h16M4 16h16" stroke-linecap="round"/></svg>
             </button>
@@ -69,7 +97,7 @@ const navLinks = [
         <svg width="32" height="32" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg>
     </button>
     <nav class="flex flex-col items-center gap-8">
-        <a href="/" class="mobile-link text-4xl font-bold uppercase tracking-tighter text-black dark:text-white">Home</a>
+        <a href={`${BASE_URL}/${lang}/`} class="mobile-link text-4xl font-bold uppercase tracking-tighter text-black dark:text-white">Home</a>
         {navLinks.map(link => (
                 <a href={link.href} class="mobile-link text-4xl font-bold uppercase tracking-tighter text-black dark:text-white">{link.label}</a>
         ))}
@@ -81,18 +109,16 @@ const navLinks = [
 </main>
 
 <script is:inline>
-    // Handle theme toggle (inline to avoid TS issues and stay simple)
     const btn = document.getElementById('theme-toggle');
     if (btn) {
-        btn.addEventListener('click', () => {
+        btn.onclick = () => {
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
+        };
     }
 </script>
 
 <script>
-    // Tell TypeScript that gsap exists globally
     declare const gsap: any;
 
     function initLayout() {
@@ -102,7 +128,6 @@ const navLinks = [
         const menu = document.getElementById('mobile-menu');
         const links = document.querySelectorAll('.mobile-link');
 
-        // 1. Smart Header logic
         let lastScroll = 0;
         const handleScroll = () => {
             const currentScroll = window.scrollY;
@@ -117,10 +142,8 @@ const navLinks = [
         window.removeEventListener('scroll', handleScroll);
         window.addEventListener('scroll', handleScroll, { passive: true });
 
-        // 2. GSAP Mobile Menu logic
         if (openBtn && closeBtn && menu && typeof gsap !== 'undefined') {
             const tl = gsap.timeline({ paused: true });
-
             tl.to(menu, { opacity: 1, pointerEvents: 'auto', duration: 0.3 })
                 .from(links, { y: 20, opacity: 0, stagger: 0.1, duration: 0.3 }, "-=0.2");
 
@@ -135,14 +158,12 @@ const navLinks = [
             };
 
             closeBtn.onclick = closeMenu;
-            // Close menu when a link is clicked
             links.forEach(link => {
                 (link as HTMLElement).onclick = closeMenu;
             });
         }
     }
 
-    // Initialize
     initLayout();
     document.addEventListener('astro:after-swap', initLayout);
 </script>

@@ -1,17 +1,35 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { jobs } from '../data/jobs';
-import { projects } from '../data/projects';
+import Layout from '../../layouts/Layout.astro';
+import { jobs } from '../../data/jobs';
+import { projects } from '../../data/projects';
+
+// 1. Обов'язкова функція для динамічних шляхів
+export function getStaticPaths() {
+    return [
+        { params: { lang: 'en' } },
+        { params: { lang: 'uk' } },
+        { params: { lang: 'es' } }
+    ];
+}
+
+const { lang = 'en' } = Astro.params;
+const currentLang = lang as 'en' | 'uk' | 'es';
+
+const titles = { en: "Work Journey", uk: "Досвід роботи", es: "Trayectoria" };
+// Переклад вступного тексту
+const intro = {
+    en: "Even though my goal is to work in Computer Science, I have tried many different roles along the way. I believe this experience has highly influenced me as a person, and in the following sections, I’ll explain how!",
+    uk: "Хоча моя мета — працювати в ІТ, на своєму шляху я спробувала багато різних ролей. Я вірю, що цей досвід сильно вплинув на мене як на особистість, і нижче я розповім, як саме!",
+    es: "Aunque mi objetivo es trabajar en informática, he probado muchos roles diferentes a lo largo del camino. Creo que esta experiencia me ha influido mucho como persona, ¡y en las siguientes secciones explicaré cómo!"
+};
 ---
 
-<Layout title="Work Journey" activePage="Work Journey">
+<Layout title={titles[currentLang]}>
     <div class="px-6 py-10 md:px-12 lg:px-24 xl:px-48">
 
-        <div class="flex justify-center mb-16">
+        <div class="flex justify-center mb-16 text-center">
             <p class="text-lg leading-relaxed max-w-[880px] font-light text-[var(--color-text)] opacity-80">
-                Even though my goal is to work in Computer Science, I have tried many different roles along the way.
-                <br class="hidden md:block">
-                I believe this experience has highly influenced me as a person, and in the following sections, I’ll explain how!
+                {intro[currentLang]}
             </p>
         </div>
 
@@ -21,31 +39,30 @@ import { projects } from '../data/projects';
                         <div class="h-px bg-[var(--color-border)] w-full mb-12 opacity-50"></div>
 
                         <h2 class="text-2xl font-bold tracking-widest uppercase text-[var(--color-text)] mb-8">
-                            {job.title}
+                            {job.title[currentLang] || job.title.en}
                         </h2>
 
                         <div class="flex flex-col gap-8">
-                            {/* Main content area */}
                             <div class={`flex flex-col gap-8 ${job.layout === 'text-right' ? 'md:flex-row' : ''}`}>
                                 <div class="flex-1 flex flex-col gap-4 text-[var(--color-text)] opacity-90">
-                                    {job.text.trim().split(/\n\s*\n/).map((p) => (
+                                    {(job.text[currentLang] || job.text.en).split(/\n\s*\n/).map((p) => (
                                             <p class="text-base leading-relaxed indent-6 md:indent-8 whitespace-pre-line">{p.trim()}</p>
                                     ))}
 
-                                    {/* Project actions aligned to the right */}
                                     {job.projectLink && (() => {
                                         const projectId = job.projectLink.split('/').pop();
                                         const projectData = projects.find(p => p.id === projectId);
+                                        // Формуємо правильне посилання з урахуванням мови
+                                        const localizedProjectLink = `/my-page2.0/${lang}/projects/${projectId}`;
 
                                         return (
                                                 <div class="flex flex-col sm:flex-row gap-3 mt-6 w-full md:max-w-[420px] md:self-end">
                                                     <a
-                                                            href={job.projectLink}
+                                                            href={localizedProjectLink}
                                                             class="flex-1 text-center py-2.5 text-xs font-bold border border-[var(--color-border)] text-[var(--color-text)] rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all uppercase tracking-wider"
                                                     >
-                                                        Read Details
+                                                        {currentLang === 'uk' ? 'Деталі' : 'Read Details'}
                                                     </a>
-
                                                     {projectData?.liveUrl && (
                                                             <a
                                                                     href={projectData.liveUrl}
@@ -60,17 +77,15 @@ import { projects } from '../data/projects';
                                     })()}
                                 </div>
 
-                                {/* Side image for text-right layout */}
                                 {job.layout === 'text-right' && job.images.length === 1 && (
                                         <img
                                                 src={job.images[0]}
-                                                alt={job.title}
+                                                alt={job.title[currentLang]}
                                                 class="flex-shrink-0 w-full md:w-72 h-64 md:h-56 object-cover rounded-2xl shadow-sm border border-[var(--color-border)]"
                                         />
                                 )}
                             </div>
 
-                            {/* Image gallery */}
                             {job.images.length > 1 && (
                                     <div class="relative">
                                         <div class="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-4 md:pb-0">
@@ -78,7 +93,7 @@ import { projects } from '../data/projects';
                                                     <div class="min-w-[85%] md:min-w-0 snap-center">
                                                         <img
                                                                 src={img}
-                                                                alt={job.title}
+                                                                alt="Work experience image"
                                                                 class="w-full h-64 md:h-60 object-cover rounded-2xl shadow-sm border border-[var(--color-border)]"
                                                         />
                                                     </div>

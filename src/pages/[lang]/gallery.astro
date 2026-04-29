@@ -1,15 +1,35 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import GalleryModal from '../components/GalleryModal.astro';
-import { galleryItems, galleryIntro } from '../data/gallery';
+import Layout from '../../layouts/Layout.astro';
+import GalleryModal from '../../components/GalleryModal.astro';
+import { galleryItems, galleryIntro } from '../../data/gallery.ts';
+
+export function getStaticPaths() {
+    return [
+        { params: { lang: 'en' } },
+        { params: { lang: 'uk' } },
+        { params: { lang: 'es' } }
+    ];
+}
+
+const { lang = 'en' } = Astro.params;
+const currentLang = lang as 'en' | 'uk' | 'es';
+
+const pageTitles = {
+    en: "Art Gallery",
+    uk: "Галерея",
+    es: "Galería"
+};
+
+// Вступний текст для поточної мови
+const localizedIntro = galleryIntro[currentLang] || galleryIntro.en;
 ---
 
-<Layout title="Art Gallery" activePage="Art Gallery">
+<Layout title={pageTitles[currentLang]} activePage="Art Gallery">
     <div class="max-w-7xl mx-auto px-6 md:px-12 py-16">
 
         <div class="flex justify-center mb-20 md:mb-28">
             <header class="max-w-[846px] w-full flex flex-col gap-4">
-                {galleryIntro.trim().split(/\n\s*\n/).map((paragraph) => (
+                {localizedIntro.trim().split(/\n\s*\n/).map((paragraph) => (
                         <p class="text-base leading-relaxed font-light text-left indent-8 whitespace-pre-line text-[var(--color-text)]">
                             {paragraph.trim()}
                         </p>
@@ -23,15 +43,15 @@ import { galleryItems, galleryIntro } from '../data/gallery';
                             class="break-inside-avoid group cursor-pointer"
                             data-gallery-item
                             data-img-src={item.src}
-                            data-img-name={item.title}
-                            data-img-desc={item.description}
+                            data-img-name={item.title[currentLang] || item.title.en}
+                            data-img-desc={item.description[currentLang] || item.description.en}
                             data-img-year={item.year}
-                            data-img-material={item.material}
+                            data-img-material={item.material[currentLang] || item.material.en}
                     >
                         <div class="relative overflow-hidden rounded-2xl bg-zinc-200 dark:bg-zinc-900 shadow-sm hover:shadow-xl transition-all duration-500">
                             <img
                                     src={item.src}
-                                    alt={item.title}
+                                    alt={item.title[currentLang] || item.title.en}
                                     loading={index < 4 ? "eager" : "lazy"}
                                     decoding="async"
                                     class="w-full h-auto block group-hover:scale-[1.02] transition-transform duration-500"

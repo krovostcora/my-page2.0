@@ -1,0 +1,82 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { projects } from '../../../data/projects.ts';
+
+export function getStaticPaths() {
+    const langs = ['en', 'uk', 'es'];
+    // ✅ Генеруємо всі комбінації lang + id
+    return langs.flatMap(lang =>
+        projects.map(project => ({
+            params: { lang, id: project.id },
+        }))
+    );
+}
+
+const { lang = 'en', id } = Astro.params;
+const currentLang = (lang as 'en' | 'uk' | 'es') || 'en';
+
+// ✅ Знаходимо конкретний проект за id
+const project = projects.find(p => p.id === id);
+
+if (!project) {
+    return Astro.redirect(`/my-page2.0/${lang}/projects`);
+}
+
+const getT = (field: any) => {
+    if (!field) return "";
+    if (typeof field === 'string') return field;
+    return field[currentLang] || field['en'] || "";
+};
+
+const base = '/my-page2.0';
+---
+
+<Layout title={getT(project.title)} activePage="Projects">
+    <div class="max-w-4xl mx-auto px-6 md:px-12 py-10">
+
+        <a href={`${base}/${lang}/projects`}
+           class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-black dark:hover:text-white mb-8 transition-colors">
+            ← {currentLang === 'uk' ? 'Назад до проєктів' : (currentLang === 'es' ? 'Volver' : 'Back to projects')}
+        </a>
+
+        {project.image && (
+                <img
+                        src={project.image}
+                        alt={getT(project.title)}
+                        class="w-full rounded-2xl mb-8 aspect-video object-cover"
+                />
+        )}
+
+        <div class="flex flex-wrap gap-2 mb-3">
+            {project.technologies.map(tech => (
+                    <span class="text-[10px] uppercase tracking-wider font-bold text-gray-400 dark:text-zinc-500">
+                    {tech}
+                </span>
+            ))}
+        </div>
+
+        <h1 class="text-3xl font-bold mb-4 dark:text-white">{getT(project.title)}</h1>
+        <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-8">{getT(project.fullDescription)}</p>
+
+        <div class="flex gap-3">
+            {project.liveUrl && (
+                    <a href={project.liveUrl} target="_blank"
+                       class="px-6 py-2.5 text-sm font-bold bg-black text-white dark:bg-white dark:text-black rounded-lg hover:opacity-80 transition-all">
+                        Live Demo
+                    </a>
+            )}
+            {project.githubUrl && (
+                    <a href={project.githubUrl} target="_blank"
+                       class="px-6 py-2.5 text-sm font-bold border border-gray-200 dark:border-zinc-700 dark:text-white rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
+                        GitHub {project.githubBackendUrl ? 'Frontend' : ''}
+                    </a>
+            )}
+            {project.githubBackendUrl && (
+                    <a href={project.githubBackendUrl} target="_blank"
+                       class="px-6 py-2.5 text-sm font-bold border border-gray-200 dark:border-zinc-700 dark:text-white rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
+                        GitHub Backend
+                    </a>
+            )}
+        </div>
+    </div>
+</Layout>
