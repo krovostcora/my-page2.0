@@ -1,4 +1,4 @@
 ---
-// Перенаправляємо на англійську версію за замовчуванням
+import { BASE_URL } from '../utils/base';
 ---
-<meta http-equiv="refresh" content="0;url=/my-page2.0/en/" />
+<meta http-equiv="refresh" content={`0;url=${BASE_URL}en/`} />

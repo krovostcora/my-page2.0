@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { BASE_URL } from '../../utils/base';
 
 // 1. Ця функція каже Astro, які сторінки генерувати
 export function getStaticPaths() {
@@ -11,7 +12,6 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const BASE_URL = '/my-page2.0';
 
 // 2. Словник перекладів для головної сторінки
 const translations = {
@@ -49,7 +49,7 @@ const t = translations[lang as keyof typeof translations] || translations.en;
 
         <div class="flex-shrink-0 order-1 lg:order-2">
             <img
-                    src={`${BASE_URL}/cat.jpeg`}
+                    src={`${BASE_URL}cat.jpeg`}
                     alt="Anna"
                     class="w-64 h-64 md:w-80 md:h-80 lg:w-[450px] lg:h-[450px] xl:w-[510px] xl:h-[506px] object-cover rounded-3xl shadow-lg border border-[var(--color-border)] hover:rotate-2 transition-transform duration-500"
             />

@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Logo from "../components/icons/Logo.astro";
 import ThemeIcon from "../components/icons/ThemeIcon.astro";
 import LangIcon from "../components/icons/LangIcon.astro";
+import { BASE_URL } from '../utils/base';
 
 interface Props {
     title?: string;
@@ -13,14 +14,12 @@ interface Props {
 const { lang = 'en' } = Astro.params;
 const { title = "My Portfolio", activePage = "" } = Astro.props;
 
-const BASE_URL = '/my-page2.0';
-
 // 2. Build dynamic navigation links
 // If language is English, we keep it in the URL (as your structure suggests pages are in [lang])
 const navLinks = [
-    { href: `${BASE_URL}/${lang}/projects`, label: 'Projects' },
-    { href: `${BASE_URL}/${lang}/work-journey`, label: 'Work Journey' },
-    { href: `${BASE_URL}/${lang}/gallery`, label: 'Art Gallery' },
+    { href: `${BASE_URL}${lang}/projects`, label: 'Projects' },
+    { href: `${BASE_URL}${lang}/work-journey`, label: 'Work Journey' },
+    { href: `${BASE_URL}${lang}/gallery`, label: 'Art Gallery' },
 ];
 
 const locales = [
@@ -50,7 +49,7 @@ const locales = [
 
 <nav id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-dark h-16 flex items-center transition-transform duration-300">
     <div class="flex items-center justify-between w-full px-6 md:px-12">
-        <a href={`${BASE_URL}/${lang}/`} class="w-10 h-10 flex-shrink-0 hover:opacity-80 transition-opacity">
+            <a href={`${BASE_URL}${lang}/`} class="w-10 h-10 flex-shrink-0 hover:opacity-80 transition-opacity">
             <Logo class="w-full h-full text-white" />
         </a>
 
@@ -75,7 +74,7 @@ const locales = [
                     <div class="bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-xl overflow-hidden">
                         {locales.map((loc) => (
                                 <a
-                                        href={`${BASE_URL}/${loc.code}/`}
+                                        href={`${BASE_URL}${loc.code}/`}
                                         class={`block px-4 py-2 text-[10px] font-bold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors ${lang === loc.code ? 'text-blue-500' : 'text-black dark:text-white'}`}
                                 >
                                     {loc.label}
@@ -97,7 +96,7 @@ const locales = [
         <svg width="32" height="32" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg>
     </button>
     <nav class="flex flex-col items-center gap-8">
-        <a href={`${BASE_URL}/${lang}/`} class="mobile-link text-4xl font-bold uppercase tracking-tighter text-black dark:text-white">Home</a>
+        <a href={`${BASE_URL}${lang}/`} class="mobile-link text-4xl font-bold uppercase tracking-tighter text-black dark:text-white">Home</a>
         {navLinks.map(link => (
                 <a href={link.href} class="mobile-link text-4xl font-bold uppercase tracking-tighter text-black dark:text-white">{link.label}</a>
         ))}

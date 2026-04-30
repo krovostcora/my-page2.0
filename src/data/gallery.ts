@@ -15,7 +15,7 @@ export interface GalleryItem {
     src: string;
 }
 
-const BASE_URL = '/my-page2.0';
+const BASE_URL = import.meta.env.BASE_URL;
 
 export const galleryIntro: MultilangText = {
     en: `I started painting with gouache in the first grade while attending art classes after school, but I stopped by the second grade. 
@@ -45,7 +45,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '1',
         title: { en: 'American Psycho', uk: 'Американський психопат', es: 'American Psycho' },
-        src: `${BASE_URL}/gallery/American Psycho.webp`,
+        src: `${BASE_URL}gallery/American Psycho.webp`,
         year: '2023',
         material: { en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos' },
         description: {
@@ -57,7 +57,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '2',
         title: { en: 'Buzok', uk: 'Бузок', es: 'Lilas' },
-        src: `${BASE_URL}/gallery/Buzok.webp`,
+        src: `${BASE_URL}gallery/Buzok.webp`,
         year: '2020',
         material: { en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos' },
         description: {
@@ -69,7 +69,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '3',
         title: { en: 'Dorm', uk: 'Гуртожиток', es: 'Residencia' },
-        src: `${BASE_URL}/gallery/Dorm.webp`,
+        src: `${BASE_URL}gallery/Dorm.webp`,
         year: '2022',
         material: { en: 'Cheap Acrylics', uk: 'Дешевий акрил', es: 'Acrílicos baratos' },
         description: {
@@ -81,7 +81,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '4',
         title: { en: 'Goose', uk: 'Гусак', es: 'Ganso' },
-        src: `${BASE_URL}/gallery/Duck.webp`,
+        src: `${BASE_URL}gallery/Duck.webp`,
         year: '2022',
         material: { en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos' },
         description: {
@@ -93,7 +93,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '5',
         title: { en: 'Even Monkey Knows', uk: 'Навіть мавпа знає', es: 'Incluso el mono lo sabe' },
-        src: `${BASE_URL}/gallery/Even Monkey Knows.webp`,
+        src: `${BASE_URL}gallery/Even Monkey Knows.webp`,
         year: '2023-2024',
         material: { en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos' },
         description: {
@@ -105,7 +105,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '6',
         title: { en: 'Hills', uk: 'Пагорби', es: 'Colinas' },
-        src: `${BASE_URL}/gallery/Hills.webp`,
+        src: `${BASE_URL}gallery/Hills.webp`,
         year: '2024',
         material: { en: 'Oil Pastel', uk: 'Олійна пастель', es: 'Pastel al óleo' },
         description: {
@@ -117,7 +117,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '7',
         title: { en: 'Japanese Cats', uk: 'Японські коти', es: 'Gatos japoneses' },
-        src: `${BASE_URL}/gallery/Japanese Cats.webp`,
+        src: `${BASE_URL}gallery/Japanese Cats.webp`,
         year: '2025',
         material: { en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos' },
         description: {
@@ -129,7 +129,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '8',
         title: { en: 'Mark', uk: 'Марк', es: 'Mark' },
-        src: `${BASE_URL}/gallery/Mark.webp`,
+        src: `${BASE_URL}gallery/Mark.webp`,
         year: '2023',
         material: { en: 'Gouache', uk: 'Гуаш', es: 'Gouache' },
         description: {
@@ -141,7 +141,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '9',
         title: { en: 'Mushroom', uk: 'Гриб', es: 'Seta' },
-        src: `${BASE_URL}/gallery/Mushroom.webp`,
+        src: `${BASE_URL}gallery/Mushroom.webp`,
         year: '2022',
         material: { en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos' },
         description: {
@@ -153,7 +153,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '10',
         title: { en: 'Panels', uk: 'Панельки', es: 'Paneles' },
-        src: `${BASE_URL}/gallery/Panels.webp`,
+        src: `${BASE_URL}gallery/Panels.webp`,
         year: '2020-2021',
         material: { en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos' },
         description: {
@@ -165,7 +165,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '11',
         title: { en: 'Peach', uk: 'Персик', es: 'Melocotón' },
-        src: `${BASE_URL}/gallery/Peach.webp`,
+        src: `${BASE_URL}gallery/Peach.webp`,
         year: '2021',
         material: { en: 'Pencils', uk: 'Олівці', es: 'Lápices' },
         description: {
@@ -177,7 +177,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '12',
         title: { en: 'Siauliai', uk: 'Шяуляй', es: 'Siauliai' },
-        src: `${BASE_URL}/gallery/Siauliai.webp`,
+        src: `${BASE_URL}gallery/Siauliai.webp`,
         year: '2022-2023',
         material: { en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos' },
         description: {
@@ -189,7 +189,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '13',
         title: { en: 'Tangerine', uk: 'Мандарин', es: 'Mandarina' },
-        src: `${BASE_URL}/gallery/Tangerine.webp`,
+        src: `${BASE_URL}gallery/Tangerine.webp`,
         year: '2020',
         material: { en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos' },
         description: {
@@ -201,7 +201,7 @@ export const galleryItems: GalleryItem[] = [
     {
         id: '14',
         title: { en: 'Yellow Taxi', uk: 'Жовте таксі', es: 'Taxi amarillo' },
-        src: `${BASE_URL}/gallery/Yellow Taxi.webp`,
+        src: `${BASE_URL}gallery/Yellow Taxi.webp`,
         year: '2023-2024',
         material: { en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos' },
         description: {

@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { projects } from '../../data/projects.ts';
+import { BASE_URL } from '../../utils/base';
 
 // 1. Required function for dynamic routes
 export function getStaticPaths() {
@@ -22,9 +23,6 @@ const getT = (field: any) => {
 };
 
 const allTags = ['all', ...new Set(projects.flatMap(p => p.tags))];
-
-// Base URL for linking to project details
-const base = '/my-page2.0';
 
 
 // Page titles translations
@@ -99,7 +97,7 @@ const pageTitles = {
 
                             <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm">
                                 <a
-                                        href={`${base}/${lang}/projects/${project.id}`}
+                                        href={`${BASE_URL}${lang}/projects/${project.id}`}
                                         class="bg-white text-black px-6 py-2.5 rounded-full font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 hover:bg-gray-100 shadow-lg"
                                 >
                                     {currentLang === 'uk' ? 'Детальніше' : (currentLang === 'es' ? 'Leer más' : 'Read more')} →
