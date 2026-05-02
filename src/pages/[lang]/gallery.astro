@@ -1,7 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import GalleryModal from '../../components/GalleryModal.astro';
-import {galleryItems, galleryIntro} from '../../data/gallery.ts';
+import { galleryItems, galleryIntro } from '../../data/gallery.ts';
+import { Image } from 'astro:assets';
 
 export function getStaticPaths() {
     return [
@@ -11,7 +12,7 @@ export function getStaticPaths() {
     ];
 }
 
-const {lang = 'en'} = Astro.params;
+const { lang = 'en' } = Astro.params;
 const currentLang = lang as 'en' | 'uk' | 'es';
 
 const pageTitles = {
@@ -19,8 +20,16 @@ const pageTitles = {
     uk: "Галерея",
     es: "Galería"
 };
-import {Image} from 'astro:assets';
 
+// 1. Сортування: від найновіших до найстаріших
+const sortedItems = [...galleryItems].sort((a, b) => {
+    const getYear = (yearStr: string) => {
+        // Витягуємо останнє число з рядка (наприклад, з "2023-2024" візьме 2024)
+        const years = yearStr.split('-').map(y => parseInt(y.trim()));
+        return Math.max(...years);
+    };
+    return getYear(b.year) - getYear(a.year);
+});
 
 const localizedIntro = galleryIntro[currentLang] || galleryIntro.en;
 ---
@@ -28,6 +37,7 @@ const localizedIntro = galleryIntro[currentLang] || galleryIntro.en;
 <Layout title={pageTitles[currentLang]} activePage="Art Gallery">
     <div class="max-w-7xl mx-auto px-6 md:px-12 py-16">
 
+        <!-- Блок вступу -->
         <div class="flex justify-center mb-20 md:mb-28">
             <header class="max-w-[846px] w-full flex flex-col gap-4">
                 {localizedIntro.trim().split(/\n\s*\n/).map((paragraph) => (
@@ -38,8 +48,9 @@ const localizedIntro = galleryIntro[currentLang] || galleryIntro.en;
             </header>
         </div>
 
+        <!-- Сітка галереї (Masonry layout через columns) -->
         <div class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
-            {galleryItems.map((item, index) => (
+            {sortedItems.map((item, index) => (
                     <figure
                             class="break-inside-avoid group cursor-pointer"
                             data-gallery-item
@@ -53,11 +64,22 @@ const localizedIntro = galleryIntro[currentLang] || galleryIntro.en;
                             <Image
                                     src={item.src}
                                     alt={item.title[currentLang] || item.title.en}
-                                    width={637}
+                                    width={600}
                                     quality="mid"
                                     loading={index < 4 ? "eager" : "lazy"}
                                     class="w-full h-auto block group-hover:scale-[1.02] transition-transform duration-500"
                             />
+
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <div class="text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                    <p class="text-[10px] uppercase tracking-widest opacity-70 mb-1">
+                                        {item.year}
+                                    </p>
+                                    <h3 class="text-sm font-bold leading-tight">
+                                        {item.title[currentLang] || item.title.en}
+                                    </h3>
+                                </div>
+                            </div>
                         </div>
                     </figure>
             ))}

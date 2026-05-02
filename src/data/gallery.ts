@@ -119,9 +119,9 @@ export const galleryItems: GalleryItem[] = [
     },
     {
         id: '6',
-        title: {en: 'Hills', uk: 'Пагорби', es: 'Colinas'},
+        title: {en: 'Mountains', uk: 'Гори', es: 'Montaňas'},
         src: hills,
-        year: '2024',
+        year: '2026',
         material: {en: 'Oil Pastel', uk: 'Олійна пастель', es: 'Pastel al óleo'},
         description: {
             en: `I found a painting kit for Japanese-style mountains at a store called "Aurora." However, following references is boring, so I decided to create something unique. \n\nLater, I saw a TikTok about this specific kit and posted my result in the comments—it surprisingly got over 500 likes!`,
