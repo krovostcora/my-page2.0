@@ -2,10 +2,10 @@
 import Layout from '../../../layouts/Layout.astro';
 import { projects } from '../../../data/projects.ts';
 import { BASE_URL } from '../../../utils/base';
+import { Image } from 'astro:assets';
 
 export function getStaticPaths() {
     const langs = ['en', 'uk', 'es'];
-    // ✅ Генеруємо всі комбінації lang + id
     return langs.flatMap(lang =>
         projects.map(project => ({
             params: { lang, id: project.id },
@@ -16,7 +16,6 @@ export function getStaticPaths() {
 const { lang = 'en', id } = Astro.params;
 const currentLang = (lang as 'en' | 'uk' | 'es') || 'en';
 
-// ✅ Знаходимо конкретний проект за id
 const project = projects.find(p => p.id === id);
 
 if (!project) {
@@ -40,9 +39,13 @@ const getT = (field: any) => {
         </a>
 
         {project.image && (
-                <img
+                <Image
                         src={project.image}
                         alt={getT(project.title)}
+                        width={1200}
+                        height={675}
+                        quality="high"
+                        loading="eager"
                         class="w-full rounded-2xl mb-8 aspect-video object-cover"
                 />
         )}

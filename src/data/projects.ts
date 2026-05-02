@@ -11,7 +11,7 @@ export interface Project {
     title: MultilangText;
     description: MultilangText;
     fullDescription: MultilangText;
-    image: string | null;
+    image: ImageMetadata | null;
     tags: string[];
     liveUrl?: string | null;
     githubUrl?: string | null;
@@ -19,7 +19,15 @@ export interface Project {
     technologies: string[];
 }
 
-const BASE_URL = import.meta.env.BASE_URL;
+import pixelImg from "../assets/projects/pixel-tracker.webp";
+import vicaImg from "../assets/projects/vicatomaps.webp";
+import pollenImg from "../assets/projects/pollen.webp";
+import storyImg from "../assets/projects/storybridge.webp";
+import leadImg from "../assets/projects/mini-lead-tracker.webp";
+import cronoImg from "../assets/projects/cronostera.webp";
+import safeImg from "../assets/projects/safe-internet.webp";
+import recImg from "../assets/projects/recommend.webp";
+
 
 export const projects: Project[] = [
     {
@@ -39,7 +47,7 @@ export const projects: Project[] = [
             uk: 'Я створила цей трекер часу, щоб допомогти керувати своїми завданнями за допомогою кастомного інтерфейсу в стилі піксель-арт. На відміну від традиційних додатків Pomodoro, він працює як секундомір — ідеально підходить для відстеження реальних робочих сесій без часового тиску. Функції включають підтримку кількох міток, історію сесій зі статистикою та теми, що налаштовуються.',
             es: 'Creé este rastreador de tiempo para ayudar a gestionar mis tareas con una interfaz personalizada de pixel art. A diferencia de las aplicaciones Pomodoro tradicionales, funciona como un cronómetro, perfecto para rastrear sesiones de trabajo reales sin presión de tiempo. Las características incluyen soporte para múltiples etiquetas, historial de sesiones con estadísticas y temas personalizables.'
         },
-        image: `${BASE_URL}projects/pixel-tracker.webp`,
+        image: pixelImg,
         tags: ['code', 'design'],
         technologies: ['React', 'Firebase', 'Tailwind CSS', 'fullstack'],
         liveUrl: 'https://krovostcora.github.io/pixel-time-tracker/',
@@ -62,7 +70,7 @@ export const projects: Project[] = [
             uk: 'Vicatomaps показує не лише маршрут, час та відстань, а й орієнтовну загальну вартість поїздки, включаючи пальне та платні дороги. Розроблений як бакалаврський проєкт, він надає REST API для розрахунку маршруту та інтеграцію цін на пальне.',
             es: 'Vicatomaps muestra no solo la ruta, el tiempo y la distancia, sino también el coste total estimado del viaje, incluyendo combustible y peajes. Desarrollado como proyecto de tesis de grado, proporciona APIs REST para el cálculo de rutas e integración de precios de combustible.'
         },
-        image: `${BASE_URL}projects/vicatomaps.webp`,
+        image: vicaImg,
         tags: ['mobile', 'research', 'code', 'thesis', 'fullstack'],
         technologies: ['Dart', 'Flutter', 'REST API'],
         githubUrl: null,
@@ -84,7 +92,7 @@ export const projects: Project[] = [
             uk: 'Проєкт під час університетського стажування, що містить візуалізацію реальних даних. Відповідала за фронтенд-розробку з використанням React/Redux та інтеграцію Chart.js для аналізу даних.',
             es: 'Proyecto de prácticas universitarias con visualizaciones de datos reales. Responsable del desarrollo front-end usando React/Redux e integración de Chart.js para el análisis de datos.'
         },
-        image: `${BASE_URL}projects/pollen.webp`,
+        image: pollenImg,
         tags: ['code', 'design', 'internship', 'fullstack'],
         liveUrl: 'https://krovostcora.github.io/pollen-meteo/',
         githubUrl: 'https://github.com/krovostcora/pollen-meteo',
@@ -107,7 +115,7 @@ export const projects: Project[] = [
             uk: 'У ролі дизайнера-волонтера в StoryBridge я зосередилася на створенні візуально привабливих макетів у Figma для підтримки молодіжної ініціативи. Співпрацюючи з захопленою командою, я зробила свій внесок у проєкт, що сприяє зміцненню спільноти та розвитку сторітелінгу.',
             es: 'Como diseñadora voluntaria en StoryBridge, me centré en crear diseños visualmente atractivos en Figma para apoyar una iniciativa juvenil dedicada a empoderar a jóvenes escritores. Al colaborar con un equipo apasionado, contribuí al proyecto que fomenta la conexión comunitaria y la narrativa.'
         },
-        image: `${BASE_URL}projects/storybridge.webp`,
+        image: storyImg,
         tags: ['design', 'volunteering'],
         liveUrl: 'https://story-bridge-blog.vercel.app/about',
         technologies: ['Figma', 'Responsive Web Design'],
@@ -129,7 +137,7 @@ export const projects: Project[] = [
             uk: 'Цей проєкт був виконаний як тестове завдання на позицію Middle FullStack розробника. Це міні-CRM, де користувачі можуть керувати лідами, оновлювати статуси, шукати та пагінувати записи. Це також був мій перший досвід роботи з ORM/ODM підходом за допомогою Mongoose.',
             es: 'Este proyecto se completó como una tarea de prueba para Desarrollador FullStack. Es un mini-CRM donde los usuarios pueden gestionar prospectos, actualizar estados y buscar registros. También fue mi primera experiencia práctica trabajando con un enfoque ORM/ODM usando Mongoose.'
         },
-        image: `${BASE_URL}projects/mini-lead-tracker.webp`,
+        image: leadImg,
         tags: ['code', 'fullstack', 'test-task'],
         githubUrl: 'https://github.com/krovostcora/mini-lead-tracker',
         technologies: ['Next.js (App Router)', 'NestJS', 'MongoDB', 'Mongoose', 'TypeScript', 'Docker'],
@@ -151,7 +159,7 @@ export const projects: Project[] = [
             uk: 'Мобільний додаток, розроблений під час стажування з використанням React Native (iOS/Android) та бекенду на Node.js/SQLite для роботи з даними подій у реальному часі.',
             es: 'Aplicación móvil desarrollada durante las prácticas usando React Native (iOS/Android) y un backend de Node.js/SQLite para manejar datos de eventos en tiempo real.'
         },
-        image: `${BASE_URL}projects/cronostera.webp`,
+        image: cronoImg,
         tags: ['mobile', 'code', 'internship'],
         githubUrl: '#',
         githubBackendUrl: '#',
@@ -174,7 +182,7 @@ export const projects: Project[] = [
             uk: 'Мій перший масштабний проєкт, створений для занять з веб-розробки. Метою було створити простий посібник для людей різного віку, які або тільки починають користуватися інтернетом, або яких легко обдурити шахраям.',
             es: 'Mi primer proyecto a gran escala creado para las clases de Web. El objetivo era crear un manual sencillo para personas de diferentes edades que están empezando a usar internet o que son engañadas fácilmente por estafas.'
         },
-        image: `${BASE_URL}projects/safe-internet.webp`,
+        image: safeImg,
         tags: ['code'],
         liveUrl: '#',
         githubUrl: '#',
@@ -197,7 +205,7 @@ export const projects: Project[] = [
             uk: 'Проєкт для занять з HCI, зосереджений на зручному інтерфейсі. Включає авторизацію через Google за допомогою Firebase та персональну систему рейтингу.',
             es: 'Proyecto de la clase de HCI centrado en una interfaz amigable para el usuario. Incluye autenticación de Google a través de Firebase y un sistema de calificación personal.'
         },
-        image: `${BASE_URL}projects/recommend.webp`,
+        image: recImg,
         tags: ['code', 'design'],
         liveUrl: 'https://krovostcora.github.io/recommendations/',
         githubUrl: '#',

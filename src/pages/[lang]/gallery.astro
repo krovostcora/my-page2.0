@@ -1,17 +1,17 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import GalleryModal from '../../components/GalleryModal.astro';
-import { galleryItems, galleryIntro } from '../../data/gallery.ts';
+import {galleryItems, galleryIntro} from '../../data/gallery.ts';
 
 export function getStaticPaths() {
     return [
-        { params: { lang: 'en' } },
-        { params: { lang: 'uk' } },
-        { params: { lang: 'es' } }
+        {params: {lang: 'en'}},
+        {params: {lang: 'uk'}},
+        {params: {lang: 'es'}}
     ];
 }
 
-const { lang = 'en' } = Astro.params;
+const {lang = 'en'} = Astro.params;
 const currentLang = lang as 'en' | 'uk' | 'es';
 
 const pageTitles = {
@@ -19,8 +19,9 @@ const pageTitles = {
     uk: "Галерея",
     es: "Galería"
 };
+import {Image} from 'astro:assets';
 
-// Вступний текст для поточної мови
+
 const localizedIntro = galleryIntro[currentLang] || galleryIntro.en;
 ---
 
@@ -42,18 +43,19 @@ const localizedIntro = galleryIntro[currentLang] || galleryIntro.en;
                     <figure
                             class="break-inside-avoid group cursor-pointer"
                             data-gallery-item
-                            data-img-src={item.src}
+                            data-img-src={item.src.src}
                             data-img-name={item.title[currentLang] || item.title.en}
                             data-img-desc={item.description[currentLang] || item.description.en}
                             data-img-year={item.year}
                             data-img-material={item.material[currentLang] || item.material.en}
                     >
                         <div class="relative overflow-hidden rounded-2xl bg-zinc-200 dark:bg-zinc-900 shadow-sm hover:shadow-xl transition-all duration-500">
-                            <img
+                            <Image
                                     src={item.src}
                                     alt={item.title[currentLang] || item.title.en}
+                                    width={637}
+                                    quality="mid"
                                     loading={index < 4 ? "eager" : "lazy"}
-                                    decoding="async"
                                     class="w-full h-auto block group-hover:scale-[1.02] transition-transform duration-500"
                             />
                         </div>
@@ -62,5 +64,5 @@ const localizedIntro = galleryIntro[currentLang] || galleryIntro.en;
         </div>
     </div>
 
-    <GalleryModal />
+    <GalleryModal/>
 </Layout>
