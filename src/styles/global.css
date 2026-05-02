@@ -1,24 +1,26 @@
 @font-face {
     font-family: 'KyivTypeSans';
-    src: url('/my-page2.0/fonts/KyivTypeSans-Regular-.woff2') format('opentype');
-    font-weight: 400; /* Зміни 100 на 400 для Regular */
+    src: url('/my-page2.0/fonts/KyivTypeSans-Regular-.woff2') format('woff2');
+    font-weight: 400;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'KyivTypeSans';
-    src: url('/my-page2.0/fonts/KyivTypeSans-Bold-.woff2') format('opentype');
+    src: url('/my-page2.0/fonts/KyivTypeSans-Bold-.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
+    font-display: swap;
 }
 
-/* ── CSS-змінні теми ── */
+/* ── CSS ── */
 :root {
     --color-bg: #ffffff;
     --color-text: #000000;
-    --color-surface: #f3f4f6;   /* gray-100 */
-    --color-border: #e5e7eb;    /* gray-200 */
-    --color-muted: #6b7280;     /* gray-500 */
+    --color-surface: #f3f4f6; /* gray-100 */
+    --color-border: #e5e7eb; /* gray-200 */
+    --color-muted: #6b7280; /* gray-500 */
     --color-placeholder: #f9fafb; /* gray-50 */
 }
 
@@ -26,12 +28,12 @@ html.dark {
     --color-bg: rgba(0, 0, 0, 0.86);
     --color-text: #bdbdbd;
     --color-surface: #1E1E1E;
-    --color-border: #374151;    /* gray-700 */
+    --color-border: #374151; /* gray-700 */
     --color-muted: #A0A0A0;
     --color-placeholder: #1E1E1E;
 }
 
-/* ── Базові стилі ── */
+/* ── Basic styles ── */
 body {
     background-color: var(--color-bg);
     color: var(--color-text);

@@ -10,12 +10,9 @@ interface Props {
     activePage?: string;
 }
 
-// 1. Get current language from params
 const { lang = 'en' } = Astro.params;
 const { title = "My Portfolio", activePage = "" } = Astro.props;
 
-// 2. Build dynamic navigation links
-// If language is English, we keep it in the URL (as your structure suggests pages are in [lang])
 const navLinks = [
     { href: `${BASE_URL}${lang}/projects`, label: 'Projects' },
     { href: `${BASE_URL}${lang}/work-journey`, label: 'Work Journey' },
@@ -34,6 +31,14 @@ const locales = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+
+    <link
+            rel="preload"
+            href="/my-page2.0/fonts/KyivTypeSans-Regular-.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+    />
 
     <script is:inline>
         const theme = localStorage.getItem('theme');
