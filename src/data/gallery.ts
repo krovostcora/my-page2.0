@@ -29,6 +29,7 @@ import peach from "../assets/gallery/Peach.webp";
 import siauliai from "../assets/gallery/Siauliai.webp";
 import tangerine from "../assets/gallery/Tangerine.webp";
 import taxi from "../assets/gallery/Yellow Taxi.webp";
+import meme from "../assets/gallery/Asturian meme.webp"
 
 
 export const galleryIntro: MultilangText = {
@@ -224,4 +225,16 @@ export const galleryItems: GalleryItem[] = [
             es: `Una de mis favoritas personales. Los paisajes urbanos son lo que más disfruto pintando. Esta pieza tardó aproximadamente medio año en terminarse, pero el resultado valió la pena.`
         }
     },
+    {
+        id: '15',
+        title: {en: 'Asturian meme', uk: 'Мем астурійський', es: 'Meme asturiano'},
+        src: meme,
+        year: '2026',
+        material: {en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos'},
+        description: {
+            en: `This is a painting of one day. On the first of May, I visited the town of Nava, where the cider museum is located. So, upon returning home, I wanted to paint something thematic! \n\nBy the way, the bottle was painted in one minute, and the rest of the work took about three hours.`,
+            uk: `Це малюнок одного дня. Першого травня я побувала у містечку Нава, де знаходиться музей сидру. Тому, повернувшись додому, мені захотілось намалювати щось тематичне! \n\nДо речі, бутилка була намальована за одну хвилину, а решта роботи зайняла близько трьох годин.`,
+            es: `Este es un dibujo de un día. El primero de mayo estuve en la ciudad de Nava, donde se encuentra el museo de la sidra. Por eso, al volver a casa, ¡quería pintar algo temático! \n\nPor cierto, la botella fue pintada en un minuto, y el resto del trabajo tomó alrededor de tres horas.`
+        }
+    }
 ];
