@@ -94,7 +94,7 @@ export const projects: Project[] = [
         },
         image: pollenImg,
         tags: ['code', 'design', 'internship', 'fullstack'],
-        liveUrl: 'https://krovostcora.github.io/pollen-meteo/',
+        liveUrl: 'http://84.32.188.59:3001/',
         githubUrl: 'https://github.com/krovostcora/pollen-meteo',
         technologies: ['React', 'Redux', 'Node.js', 'PostgreSQL', 'Chart.js'],
     },
