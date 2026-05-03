@@ -64,9 +64,9 @@ export const galleryItems: GalleryItem[] = [
         year: '2023',
         material: {en: 'Acrylics', uk: 'Акрил', es: 'Acrílicos'},
         description: {
-            en: `I think the title speaks for itself. After watching the movie "American Psycho," I was really struck by its aesthetic. \n\nAt the time, "sigma" memes were everywhere, which inspired me to paint Patrick Bateman. It was also a great opportunity to practice my portrait techniques.`,
-            uk: `Думаю, назва говорить сама за себе. Після перегляду фільму "Американський психопат" мене дуже вразила його естетика. \n\nНа той час меми про "сигму" були всюди, що й надихнуло мене намалювати Патріка Бейтмана. Це також була чудова можливість потренувати техніку портрета.`,
-            es: `Creo que el título habla por sí solo. Después de ver la película "American Psycho", me impresionó mucho su estética. \n\nEn ese momento, los memes de "sigma" estaban en todas partes, lo que me inspiró a pintar a Patrick Bateman. También fue una gran oportunidad para practicar mis técnicas de retrato.`
+            en: `I think the title speaks for itself. After watching the movie "American Psycho," I was really struck by its aesthetic. \n\nAt the time, sigma memes were everywhere, which inspired me to paint Patrick Bateman. It was also a great opportunity to practice my portrait techniques.`,
+            uk: `Думаю, назва говорить сама за себе. Після перегляду фільму "Американський психопат" мене дуже вразила його естетика. \n\nНа той час меми про sigma були всюди, що й надихнуло мене намалювати Патріка Бейтмана. Це також була чудова можливість потренувати техніку портрета.`,
+            es: `Creo que el título habla por sí solo. Después de ver la película "American Psycho", me impresionó mucho su estética. \n\nEn ese momento, los memes de sigma estaban en todas partes, lo que me inspiró a pintar a Patrick Bateman. También fue una gran oportunidad para practicar mis técnicas de retrato.`
         }
     },
     {
