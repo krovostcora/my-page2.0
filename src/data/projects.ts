@@ -1,9 +1,13 @@
-// src/data/projects.ts
-
 export interface MultilangText {
     en: string;
     uk: string;
     es: string;
+}
+
+export interface ProjectResource {
+    type: 'video' | 'presentation' | 'document';
+    url: string;
+    label: string;
 }
 
 export interface Project {
@@ -17,6 +21,8 @@ export interface Project {
     githubUrl?: string | null;
     githubBackendUrl?: string | null;
     technologies: string[];
+    resources?: ProjectResource[];
+    screenshots?: ImageMetadata[];
 }
 
 import pixelImg from "../assets/projects/pixel-tracker.webp";
@@ -27,6 +33,17 @@ import leadImg from "../assets/projects/mini-lead-tracker.webp";
 import cronoImg from "../assets/projects/cronostera.webp";
 import safeImg from "../assets/projects/safe-internet.webp";
 import recImg from "../assets/projects/recommend.webp";
+
+import pixelImg1 from "../assets/projects/pixel_timer/pixel_timer1.webp";
+import pixelImg2 from "../assets/projects/pixel_timer/pixel_timer2.webp";
+import pixelImg3 from "../assets/projects/pixel_timer/pixel_timer3.webp";
+import pixelImg4 from "../assets/projects/pixel_timer/pixel_timer4.webp";
+import pixelImg5 from "../assets/projects/pixel_timer/pixel_timer5.webp";
+
+import pollenImg1 from "../assets/projects/pollen-meteo/pollen-meteo1.webp";
+import pollenImg2 from "../assets/projects/pollen-meteo/pollen-meteo2.webp";
+import pollenImg3 from "../assets/projects/pollen-meteo/pollen-meteo3.webp";
+import pollenImg4 from "../assets/projects/pollen-meteo/pollen-meteo4.webp";
 
 
 export const projects: Project[] = [
@@ -43,15 +60,16 @@ export const projects: Project[] = [
             es: 'Una aplicación de seguimiento de tiempo con estilo retro y estética pixel art.'
         },
         fullDescription: {
-            en: 'I created this time tracker to help manage my tasks with a custom pixel art interface. Unlike traditional Pomodoro apps, this works as a stopwatch — perfect for tracking real work sessions without time pressure. Features include custom multi-label support, session history with statistics, and customizable themes.',
-            uk: 'Я створила цей трекер часу, щоб допомогти керувати своїми завданнями за допомогою кастомного інтерфейсу в стилі піксель-арт. На відміну від традиційних додатків Pomodoro, він працює як секундомір — ідеально підходить для відстеження реальних робочих сесій без часового тиску. Функції включають підтримку кількох міток, історію сесій зі статистикою та теми, що налаштовуються.',
-            es: 'Creé este rastreador de tiempo para ayudar a gestionar mis tareas con una interfaz personalizada de pixel art. A diferencia de las aplicaciones Pomodoro tradicionales, funciona como un cronómetro, perfecto para rastrear sesiones de trabajo reales sin presión de tiempo. Las características incluyen soporte para múltiples etiquetas, historial de sesiones con estadísticas y temas personalizables.'
+            en: 'I created this time tracker to help manage my tasks with a custom pixel art interface. Unlike traditional Pomodoro apps, this works as a stopwatch — perfect for tracking real work sessions without time pressure. \n\nFeatures include custom multi-label support, session history with statistics, and customizable themes.',
+            uk: 'Я створила цей трекер часу, щоб допомогти керувати своїми завданнями за допомогою кастомного інтерфейсу в стилі піксель-арт. На відміну від традиційних додатків Pomodoro, він працює як секундомір — ідеально підходить для відстеження реальних робочих сесій без часового тиску. \n\nФункції включають підтримку кількох міток, історію сесій зі статистикою та теми, що налаштовуються.',
+            es: 'Creé este rastreador de tiempo para ayudar a gestionar mis tareas con una interfaz personalizada de pixel art. A diferencia de las aplicaciones Pomodoro tradicionales, funciona como un cronómetro, perfecto para rastrear sesiones de trabajo reales sin presión de tiempo. \n\nLas características incluyen soporte para múltiples etiquetas, historial de sesiones con estadísticas y temas personalizables.'
         },
         image: pixelImg,
         tags: ['code', 'design'],
         technologies: ['React', 'Firebase', 'Tailwind CSS', 'fullstack'],
         liveUrl: 'https://krovostcora.github.io/pixel-time-tracker/',
         githubUrl: 'https://github.com/krovostcora/pixel-time-tracker',
+        screenshots: [pixelImg5, pixelImg1, pixelImg2, pixelImg3, pixelImg4],
     },
     {
         id: 'vicatomaps',
@@ -66,14 +84,31 @@ export const projects: Project[] = [
             es: 'App de navegación para viajes por Europa con estimación de costes.'
         },
         fullDescription: {
-            en: 'Vicatomaps shows not only the route, time, and distance, but also the estimated total cost of the trip, including fuel and tolls. Developed as a bachelor’s thesis project, it provides REST APIs for route calculation and fuel price integration.',
-            uk: 'Vicatomaps показує не лише маршрут, час та відстань, а й орієнтовну загальну вартість поїздки, включаючи пальне та платні дороги. Розроблений як бакалаврський проєкт, він надає REST API для розрахунку маршруту та інтеграцію цін на пальне.',
-            es: 'Vicatomaps muestra no solo la ruta, el tiempo y la distancia, sino también el coste total estimado del viaje, incluyendo combustible y peajes. Desarrollado como proyecto de tesis de grado, proporciona APIs REST para el cálculo de rutas e integración de precios de combustible.'
+            en: "The idea for this project came from my father, who once struggled to estimate the true cost of a road trip across Europe. He inspired me to build an alternative to ViaMichelin — an app that helps calculate fuel and toll expenses upfront.\n\nCurrently, it exists as a working 'Proof of Concept' due to API and App Store fees, but it already features multi-language support, dark/light modes, and full Google Maps integration.",
+            uk: "Ідея цього проєкту з’явилася завдяки моєму татові, який одного разу зіткнувся з проблемою: було важко заздалегідь зрозуміти реальну вартість поїздки Європою на авто. Він надихнув мене створити альтернативу ViaMichelin — додаток, який автоматично рахує витрати на пальне та платні дороги.\n\nНаразі це працюючий прототип (Proof of Concept), оскільки публікація в Apple Store та професійні карти вимагають платних ліцензій. Проте проєкт вже підтримує кілька мов, світлу й темну теми та повністю інтегрований з Google Maps.",
+            es: "La idea de este proyecto nació gracias a mi padre, quien una vez tuvo dificultades para calcular el coste real de un viaje en coche por Europa. Él me inspiró a crear una alternativa a ViaMichelin, una aplicación que ayuda a entender los gastos de combustible y peajes.\n\nPor ahora es un prototipo funcional (Proof of Concept), ya que publicar en la Apple Store requiere licencias de pago. Aun así, el proyecto ya soporta varios idiomas, temas claro/oscuro e integración con Google Maps."
         },
         image: vicaImg,
         tags: ['mobile', 'research', 'code', 'thesis', 'fullstack'],
         technologies: ['Dart', 'Flutter', 'REST API'],
         githubUrl: null,
+        resources: [
+            {
+                type: 'video',
+                url: 'https://player.vimeo.com/video/1188824321?badge=0&autopause=0&player_id=0&app_id=58479',
+                label: 'Demo Video'
+            },
+            {
+                type: 'presentation',
+                url: 'https://www.canva.com/design/DAG7v-SDFE4/AzSwszNXZdll21m4eaN7TQ/edit',
+                label: 'Project Presentation'
+            },
+            {
+                type: 'document',
+                url: 'https://file.notion.so/f/f/7c3c1f57-58c2-40f4-9a52-f1decffa6c5f/b8d5ed1c-61cf-42ef-b6fa-726e4795de20/Software_Engineering_Kutova_Anna_BBD.pdf?table=block&id=2e8ca0c9-47ca-8004-ba5f-e4217751818e&spaceId=7c3c1f57-58c2-40f4-9a52-f1decffa6c5f&expirationTimestamp=1777852800000&signature=sEId37P2ameZVvMOSaF6oXK3JAWIa7vgkn3wJR96FeI&downloadName=Software+Engineering_Kutova+Anna_BBD.pdf',
+                label: 'Bachelor Thesis'
+            }
+        ]
     },
     {
         id: 'pollen-meteo',
@@ -88,15 +123,16 @@ export const projects: Project[] = [
             es: 'Aplicación web con información sobre niveles de polen y condiciones climáticas.'
         },
         fullDescription: {
-            en: 'University internship project featuring real-world data visualizations. Responsible for front-end development using React/Redux and integrating Chart.js for data insights.',
-            uk: 'Проєкт під час університетського стажування, що містить візуалізацію реальних даних. Відповідала за фронтенд-розробку з використанням React/Redux та інтеграцію Chart.js для аналізу даних.',
-            es: 'Proyecto de prácticas universitarias con visualizaciones de datos reales. Responsable del desarrollo front-end usando React/Redux e integración de Chart.js para el análisis de datos.'
+            en: "A university internship project designed to correlate environmental data. The application visualizes pollen concentration levels alongside real-time weather data fetched via a third-party API.\n\nI was responsible for the entire frontend architecture, including the UI/UX design (originally prototyped in Figma) and a multilingual system supporting English, Lithuanian, and Ukrainian.\n\nWhile the backend and PostgreSQL database—developed by another team member—are currently offline, the frontend remains a robust showcase of complex data visualization using Chart.js, state management with Redux, and a dynamic dark/light theme implementation.",
+            uk: "Проєкт університетського стажування, створений для кореляції екологічних даних. Додаток візуалізує концентрацію пилку в повітрі паралельно з даними про погоду в реальному часі, отриманими через зовнішній API.\n\nЯ відповідала за всю архітектуру фронтенду, включаючи UI/UX дизайн (створений у Figma) та систему локалізації, що підтримує англійську, литовську та українську мови.\n\nХоча бекенд та база даних PostgreSQL, розроблені іншим студентом, наразі недоступні, фронтенд залишається потужним прикладом візуалізації складних даних за допомогою Chart.js, управління станом через Redux та реалізації динамічної світлої й темної тем.",
+            es: "Proyecto de prácticas universitarias diseñado para correlacionar datos ambientales. La aplicación visualiza los niveles de concentración de polen junto con datos meteorológicos en tiempo real obtenidos a través de una API externa.\n\nFui responsable de toda la arquitectura front-end, incluido el diseño UI/UX (prototipado originalmente en Figma) y un sistema multilingüe que soporta inglés, lituano y ucraniano.\n\nAunque el back-end y la base de datos PostgreSQL —desarrollados por otro integrante del equipo— se encuentran actualmente fuera de línea, el front-end sigue siendo una sólida demostración de visualización de datos complejos mediante Chart.js, gestión de estado con Redux e implementación de temas claro y oscuro."
         },
         image: pollenImg,
         tags: ['code', 'design', 'internship', 'fullstack'],
         liveUrl: 'http://84.32.188.59:3001/',
         githubUrl: 'https://github.com/krovostcora/pollen-meteo',
         technologies: ['React', 'Redux', 'Node.js', 'PostgreSQL', 'Chart.js'],
+        screenshots: [pollenImg2, pollenImg3, pollenImg1],
     },
     {
         id: 'storybridge',

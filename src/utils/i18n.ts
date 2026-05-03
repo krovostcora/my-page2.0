@@ -23,6 +23,8 @@ export const ui = {
         'work.details': 'Read Details',
         'projects.back': 'Back to projects',
         'projects.live': 'Live Demo',
+        'projects.tech_docs': 'Technical Documentation',
+        'projects.view_resource': 'View Resource',
     },
     uk: {
         'nav.home': 'Головна',
@@ -40,6 +42,8 @@ export const ui = {
         'work.details': 'Деталі',
         'projects.back': 'Назад до проєктів',
         'projects.live': 'Демо',
+        'projects.tech_docs': 'Технічна документація',
+        'projects.view_resource': 'Відкрити матеріал',
     },
     es: {
         'nav.home': 'Inicio',
@@ -57,6 +61,8 @@ export const ui = {
         'work.details': 'Leer Detalles',
         'projects.back': 'Volver a proyectos',
         'projects.live': 'Demo en vivo',
+        'projects.tech_docs': 'Documentación Técnica',
+        'projects.view_resource': 'Ver Recurso',
     },
 } as const;
 
