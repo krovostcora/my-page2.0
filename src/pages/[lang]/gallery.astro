@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import GalleryModal from '../../components/GalleryModal.astro';
 import { galleryItems, galleryIntro } from '../../data/gallery.ts';
 import { Image } from 'astro:assets';
+import { useTranslations, ui } from '../../utils/i18n';
 
 export function getStaticPaths() {
     return [
@@ -13,18 +14,11 @@ export function getStaticPaths() {
 }
 
 const { lang = 'en' } = Astro.params;
-const currentLang = lang as 'en' | 'uk' | 'es';
+const currentLang = (lang in ui ? lang : 'en') as keyof typeof ui;
+const t = useTranslations(currentLang);
 
-const pageTitles = {
-    en: "Art Gallery",
-    uk: "Галерея",
-    es: "Galería"
-};
-
-// 1. Сортування: від найновіших до найстаріших
 const sortedItems = [...galleryItems].sort((a, b) => {
     const getYear = (yearStr: string) => {
-        // Витягуємо останнє число з рядка (наприклад, з "2023-2024" візьме 2024)
         const years = yearStr.split('-').map(y => parseInt(y.trim()));
         return Math.max(...years);
     };
@@ -34,10 +28,9 @@ const sortedItems = [...galleryItems].sort((a, b) => {
 const localizedIntro = galleryIntro[currentLang] || galleryIntro.en;
 ---
 
-<Layout title={pageTitles[currentLang]} activePage="Art Gallery">
+<Layout title={t('nav.gallery')} activePage="Art Gallery">
     <div class="max-w-7xl mx-auto px-6 md:px-12 py-16">
 
-        <!-- Блок вступу -->
         <div class="flex justify-center mb-20 md:mb-28">
             <header class="max-w-[846px] w-full flex flex-col gap-4">
                 {localizedIntro.trim().split(/\n\s*\n/).map((paragraph) => (
@@ -48,7 +41,6 @@ const localizedIntro = galleryIntro[currentLang] || galleryIntro.en;
             </header>
         </div>
 
-        <!-- Сітка галереї (Masonry layout через columns) -->
         <div class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
             {sortedItems.map((item, index) => (
                     <figure
