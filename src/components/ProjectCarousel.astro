@@ -1,0 +1,114 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+    project: any;
+    getT: (field: any) => string;
+}
+
+const { project, getT } = Astro.props;
+const hasScreenshots = project.screenshots && project.screenshots.length > 1;
+---
+
+<div class="relative group overflow-hidden rounded-3xl border border-zinc-100 dark:border-zinc-800 shadow-xl bg-zinc-950">
+    <div id="carousel-viewport" class="relative aspect-video w-full overflow-hidden">
+        <div
+                id="project-carousel"
+                class="flex h-full w-full cursor-grab active:cursor-grabbing scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden overflow-x-auto snap-x snap-mandatory gap-0"
+        >
+            {project.screenshots ? (
+                project.screenshots.map((img, index) => (
+                        <div
+                                class="min-w-full h-full flex-shrink-0 select-none snap-center"
+                                data-gallery-item
+                                data-img-src={img.src}
+                                data-img-name={getT(project.title)}
+                                data-is-project="true"
+                        >
+                            <Image
+                                    src={img}
+                                    alt={`${getT(project.title)} screenshot ${index + 1}`}
+                                    width={1600}
+                                    class="w-full h-full object-contain pointer-events-none"
+                            />
+                        </div>
+                ))
+            ) : (
+                project.image && (
+                        <div
+                                class="min-w-full h-full flex-shrink-0"
+                                data-gallery-item
+                                data-img-src={project.image.src}
+                                data-img-name={getT(project.title)}
+                                data-is-project="true"
+                        >
+                            <Image
+                                    src={project.image}
+                                    alt={getT(project.title)}
+                                    width={1600}
+                                    class="w-full h-full object-contain pointer-events-none"
+                            />
+                        </div>
+                )
+            )}
+        </div>
+    </div>
+
+    {hasScreenshots && (
+            <>
+                <button id="prev-btn" class="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white/10 hover:bg-white/90 dark:bg-black/20 dark:hover:bg-zinc-900/90 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 text-zinc-900 dark:text-white" aria-label="Previous">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+
+                <button id="next-btn" class="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white/10 hover:bg-white/90 dark:bg-black/20 dark:hover:bg-zinc-900/90 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 text-zinc-900 dark:text-white" aria-label="Next">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </>
+    )}
+</div>
+
+<script>
+    function initCarousel() {
+        const carousel = document.getElementById('project-carousel');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        if (!carousel) return;
+
+        nextBtn?.addEventListener('click', () => {
+            carousel.scrollBy({ left: carousel.offsetWidth, behavior: 'smooth' });
+        });
+
+        prevBtn?.addEventListener('click', () => {
+            carousel.scrollBy({ left: -carousel.offsetWidth, behavior: 'smooth' });
+        });
+
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        carousel.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - carousel.offsetLeft;
+            scrollLeft = carousel.scrollLeft;
+            carousel.classList.remove('scroll-smooth');
+        });
+
+        carousel.addEventListener('mouseleave', () => { isDown = false; });
+        carousel.addEventListener('mouseup', () => {
+            isDown = false;
+            carousel.classList.add('scroll-smooth');
+        });
+
+        carousel.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - carousel.offsetLeft;
+            const walk = (x - startX) * 2;
+            carousel.scrollLeft = scrollLeft - walk;
+        });
+    }
+
+    initCarousel();
+    document.addEventListener('astro:after-swap', initCarousel);
+</script>

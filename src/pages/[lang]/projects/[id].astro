@@ -1,9 +1,9 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import GalleryModal from '../../../components/GalleryModal.astro';
+import ProjectCarousel from '../../../components/ProjectCarousel.astro';
 import { projects } from '../../../data/projects.ts';
 import { BASE_URL } from '../../../utils/base';
-import { Image } from 'astro:assets';
 import { useTranslations, ui } from '../../../utils/i18n';
 
 export function getStaticPaths() {
@@ -35,17 +35,15 @@ const getT = (field: any) => {
 <Layout title={getT(project.title)} activePage="Projects">
     <div class="max-w-4xl mx-auto px-6 md:px-12 py-10">
 
-        {/* Back navigation */}
         <a href={`${BASE_URL}${lang}/projects`}
-           class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-black dark:hover:text-white mb-8 transition-colors">
+           class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-black dark:hover:text-white mb-8 transition-colors">
             ← {t('projects.back')}
         </a>
 
-        <h1 class="text-4xl md:text-5xl font-bold mb-6 dark:text-white tracking-tight leading-tight">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6 dark:text-white tracking-tight">
             {getT(project.title)}
         </h1>
 
-        {/* Tech stack badges */}
         <div class="flex flex-wrap gap-2 mb-8">
             {project.technologies.map(tech => (
                     <span class="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 text-[10px] uppercase tracking-widest font-bold text-zinc-500 dark:text-zinc-400 rounded-md">
@@ -54,87 +52,30 @@ const getT = (field: any) => {
             ))}
         </div>
 
-        {/* MEDIA SECTION */}
         <div class="mb-12">
-            {/* 1. Priority: Video */}
             {project.resources?.find(r => r.type === 'video') ? (
                     <div class="relative w-full rounded-3xl overflow-hidden shadow-2xl bg-black aspect-video">
                         <iframe
                                 src={project.resources.find(r => r.type === 'video').url}
                                 frameborder="0"
-                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                                allow="autoplay; fullscreen"
                                 class="absolute top-0 left-0 w-full h-full"
                                 title={getT(project.title)}
                         ></iframe>
                     </div>
             ) : (
-                /* 2. Secondary: Large Image Carousel (min-w-95% for 2x size effect) */
-                    <div class="relative group">
-                        <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                            {project.screenshots ? (
-                                project.screenshots.map((img, index) => (
-                                        <div
-                                                class="min-w-[95%] md:min-w-[90%] snap-center first:pl-0 cursor-zoom-in"
-                                                data-gallery-item
-                                                data-img-src={img.src}
-                                                data-img-name={getT(project.title)}
-                                                data-img-year=""
-                                                data-img-material=""
-                                                data-is-project="true"
-                                        >
-                                            <div class="overflow-hidden rounded-3xl border border-zinc-100 dark:border-zinc-800 shadow-xl bg-zinc-50 dark:bg-zinc-900 aspect-video md:aspect-auto group/img">
-                                                <Image
-                                                        src={img}
-                                                        alt={`${getT(project.title)} screenshot ${index + 1}`}
-                                                        width={1600}
-                                                        class="w-full h-full object-cover group-hover/img:scale-[1.01] transition-transform duration-700"
-                                                />
-                                            </div>
-                                        </div>
-                                ))
-                            ) : (
-                                /* 3. Fallback: Single large image */
-                                project.image && (
-                                        <div
-                                                class="w-full overflow-hidden rounded-3xl border border-zinc-100 dark:border-zinc-800 shadow-2xl cursor-zoom-in"
-                                                data-gallery-item
-                                                data-img-src={project.image.src}
-                                                data-img-name={getT(project.title)}
-                                                data-is-project="true"
-                                        >
-                                            <Image
-                                                    src={project.image}
-                                                    alt={getT(project.title)}
-                                                    width={1600}
-                                                    class="w-full h-auto object-cover"
-                                            />
-                                        </div>
-                                )
-                            )}
-                        </div>
-
-                        {/* Desktop scroll hint */}
-                        {project.screenshots && project.screenshots.length > 1 && (
-                                <div class="hidden md:flex absolute inset-y-0 -right-4 items-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                                    <div class="bg-black/50 backdrop-blur-sm text-white p-2 rounded-full translate-x-full">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                                    </div>
-                                </div>
-                        )}
-                    </div>
+                    <ProjectCarousel project={project} getT={getT} />
             )}
         </div>
 
-        {/* DESCRIPTION SECTION */}
         <div class="prose prose-zinc dark:prose-invert max-w-none mb-12">
             {getT(project.fullDescription).split(/\n\s*\n/).map((paragraph) => (
-                    <p class="text-xl text-gray-600 dark:text-gray-400 leading-relaxed font-light mb-6">
+                    <p class="text-xl text-zinc-600 dark:text-zinc-400 leading-relaxed font-light mb-6">
                         {paragraph.trim()}
                     </p>
             ))}
         </div>
 
-        {/* PRIMARY ACTION BUTTONS */}
         <div class="flex flex-wrap gap-4 mb-20">
             {project.liveUrl && (
                     <a href={project.liveUrl} target="_blank" class="px-8 py-3 bg-black text-white dark:bg-white dark:text-black rounded-xl font-bold hover:scale-[1.02] transition-transform shadow-lg">
@@ -153,23 +94,14 @@ const getT = (field: any) => {
             )}
         </div>
 
-        {/* TECHNICAL DOCUMENTATION SECTION */}
         {project.resources && project.resources.filter(r => r.type !== 'video').length > 0 && (
                 <section class="border-t border-zinc-100 dark:border-zinc-800 pt-16">
-                    <h2 class="text-2xl font-bold mb-8 dark:text-white tracking-tight">
-                        {t('projects.tech_docs')}
-                    </h2>
+                    <h2 class="text-2xl font-bold mb-8 dark:text-white">{t('projects.tech_docs')}</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {project.resources.filter(r => r.type !== 'video').map(res => (
-                                <a href={res.url} target="_blank" class="group p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-800 hover:shadow-xl hover:border-transparent transition-all duration-300">
-                                    <div class="flex flex-col h-full">
-                                        <span class="text-[10px] uppercase tracking-widest font-bold text-zinc-400 mb-2">{res.type}</span>
-                                        <h3 class="font-bold text-lg dark:text-white mb-4 group-hover:text-blue-500 transition-colors">{res.label}</h3>
-                                        <div class="mt-auto flex items-center text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                                            {t('projects.view_resource')}
-                                            <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                                        </div>
-                                    </div>
+                                <a href={res.url} target="_blank" class="group p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-800 transition-all">
+                                    <span class="text-[10px] uppercase tracking-widest font-bold text-zinc-400 mb-2 block">{res.type}</span>
+                                    <h3 class="font-bold text-lg dark:text-white group-hover:text-blue-500 transition-colors">{res.label}</h3>
                                 </a>
                         ))}
                     </div>
@@ -177,47 +109,36 @@ const getT = (field: any) => {
         )}
     </div>
 
-    {/* Lightbox Modal Component */}
     <GalleryModal />
 </Layout>
 
-<script src="https://player.vimeo.com/api/player.js"></script>
-
 <script>
-
     function setupProjectModalBehavior() {
-        const items = document.querySelectorAll('[data-gallery-item][data-is-project="true"]');
         const modalInner = document.getElementById('gallery-modal-inner');
         const infoPanel = modalInner?.querySelector('.flex-1.p-8');
         const imgContainer = modalInner?.querySelector('.w-full.md\\:w-auto');
 
-        items.forEach(item => {
-            item.addEventListener('click', () => {
-                // Wait a tiny bit for GalleryModal script to run
-                setTimeout(() => {
-                    if (infoPanel && imgContainer && modalInner) {
-                        infoPanel.classList.add('hidden'); // Hide the description panel
-                        imgContainer.classList.remove('md:border-r'); // Remove divider
-                        imgContainer.classList.add('md:max-w-full', 'w-full'); // Make image full width
-                        modalInner.classList.remove('max-w-5xl');
-                        modalInner.classList.add('max-w-fit');
-                    }
-                }, 10);
-            });
+        const adjustModal = (show) => {
+            if (!infoPanel || !imgContainer || !modalInner) return;
+            if (show) {
+                infoPanel.classList.add('hidden');
+                imgContainer.classList.remove('md:border-r');
+                imgContainer.classList.add('md:max-w-full', 'w-full');
+                modalInner.classList.replace('max-w-5xl', 'max-w-fit');
+            } else {
+                infoPanel.classList.remove('hidden');
+                imgContainer.classList.add('md:border-r');
+                imgContainer.classList.remove('md:max-w-full', 'w-full');
+                modalInner.classList.replace('max-w-fit', 'max-w-5xl');
+            }
+        };
+
+        document.querySelectorAll('[data-gallery-item][data-is-project="true"]').forEach(item => {
+            item.addEventListener('click', () => setTimeout(() => adjustModal(true), 50));
         });
 
-        // Reset modal styles when closing
-        const closeTrigger = document.querySelectorAll('#modal-close-x, #modal-close-btn, #gallery-overlay');
-        closeTrigger.forEach(trigger => {
-            trigger.addEventListener('click', () => {
-                if (infoPanel && imgContainer && modalInner) {
-                    infoPanel.classList.remove('hidden');
-                    imgContainer.classList.add('md:border-r');
-                    imgContainer.classList.remove('md:max-w-full', 'w-full');
-                    modalInner.classList.add('max-w-5xl');
-                    modalInner.classList.remove('max-w-fit');
-                }
-            });
+        ['#modal-close-x', '#modal-close-btn', '#gallery-overlay'].forEach(id => {
+            document.querySelector(id)?.addEventListener('click', () => adjustModal(false));
         });
     }
 
