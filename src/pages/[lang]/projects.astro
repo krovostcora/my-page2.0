@@ -1,19 +1,19 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { projects } from '../../data/projects.ts';
-import { BASE_URL } from '../../utils/base';
-import { Image } from 'astro:assets';
-import { useTranslations, ui } from '../../utils/i18n';
+import {projects} from '../../data/projects.ts';
+import {BASE_URL} from '../../utils/base';
+import {Image} from 'astro:assets';
+import {useTranslations, ui} from '../../utils/i18n';
 
 export function getStaticPaths() {
     return [
-        { params: { lang: 'en' } },
-        { params: { lang: 'uk' } },
-        { params: { lang: 'es' } }
+        {params: {lang: 'en'}},
+        {params: {lang: 'uk'}},
+        {params: {lang: 'es'}}
     ];
 }
 
-const { lang = 'en' } = Astro.params;
+const {lang = 'en'} = Astro.params;
 const currentLang = (lang in ui ? lang : 'en') as keyof typeof ui;
 const t = useTranslations(currentLang);
 
@@ -29,36 +29,28 @@ const allTags = ['all', ...new Set(projects.flatMap(p => p.tags))];
 <Layout title={t('projects.title')} activePage="Projects">
     <div class="max-w-7xl mx-auto px-6 md:px-12 py-10" x-data="{ showFilters: false, active: 'all' }">
 
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
-            <button
-                    @click="showFilters = !showFilters"
-                    class="flex items-center gap-3 px-4 py-2 bg-gray-100 dark:bg-zinc-800 rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-700 transition-all w-full md:w-auto justify-center"
-            >
-                <span class="text-sm font-bold dark:text-white">
-                    {t('projects.filters')}
-                </span>
-                <svg
-                        width="14" height="11"
-                        viewBox="0 0 14 11"
-                        class="transition-transform duration-300"
-                        :class="showFilters ? 'rotate-180' : ''"
-                >
-                    <path d="M0 0l7 11 7-11z" class="fill-current dark:text-white"/>
-                </svg>
-            </button>
-        </div>
+        <div class="mb-12">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 md:mx-0 md:px-0 w-full">
 
-        <div x-show="showFilters" x-collapse x-cloak class="mb-10">
-            <div class="flex gap-2 flex-wrap p-4 bg-gray-50 dark:bg-zinc-900 rounded-xl border border-gray-100 dark:border-zinc-800">
-                {allTags.map(tag => (
-                        <button
-                                @click={`active = '${tag}'`}
-                                :class={`active === '${tag}' ? 'bg-black border-black text-white' : 'bg-white border-gray-200 hover:border-black dark:bg-zinc-800 dark:text-white dark:border-zinc-700'`}
-                                class="px-5 py-1.5 rounded-full border text-sm transition-all capitalize font-medium"
-                        >
-                            {tag}
-                        </button>
-                ))}
+                    <div class="hidden md:flex items-center gap-2 mr-2 opacity-50">
+                    <span class="text-[10px] font-black uppercase tracking-widest text-mist-500 dark:text-zinc-400">
+                        {t('projects.filters')}
+                    </span>
+                    </div>
+
+                    {allTags.map(tag => (
+                            <button
+                                    @click={`active = '${tag}'`}
+                                    :class={`active === '${tag}' 
+        ? 'bg-black text-white border-black dark:bg-white dark:text-black shadow-md' 
+        : 'bg-mist-100 text-mist-600 border-zinc-200 hover:border-zinc-400 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700 dark:hover:border-zinc-500'`}
+                                    class="px-5 py-2 rounded-full border text-xs font-bold transition-all capitalize whitespace-nowrap"
+                            >
+                                {tag}
+                            </button>
+                    ))}
+                </div>
             </div>
         </div>
 
