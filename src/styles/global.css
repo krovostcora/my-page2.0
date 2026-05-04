@@ -25,7 +25,7 @@
 }
 
 html.dark {
-    --color-bg: rgba(0, 0, 0, 0.86);
+    --color-bg: rgb(35, 35, 35);
     --color-text: #bdbdbd;
     --color-surface: #1E1E1E;
     --color-border: #374151; /* gray-700 */
