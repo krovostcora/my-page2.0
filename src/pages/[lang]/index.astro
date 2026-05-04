@@ -22,6 +22,8 @@ const t = useTranslations(currentLang);
     <section
             class="min-h-[calc(100vh-64px)] flex flex-col lg:flex-row items-center justify-center lg:justify-between px-6 md:px-12 lg:px-24 xl:px-48 py-12 lg:py-20 gap-12"
     >
+
+
         <div class="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1">
             <h1 class="text-6xl md:text-8xl lg:text-[100px] font-bold leading-[0.9] tracking-tight font-display text-[var(--color-text)]">
                 {t('home.title')}
@@ -32,16 +34,51 @@ const t = useTranslations(currentLang);
             </p>
         </div>
 
-        <div class="flex-shrink-0 order-1 lg:order-2">
-            <Image
-                    src={profilePhoto}
-                    alt="Anna"
-                    width={600}
-                    height={600}
-                    quality="high"
-                    loading="eager"
-                    class="w-64 h-64 md:w-80 md:h-80 lg:w-[450px] lg:h-[450px] xl:w-[510px] xl:h-[506px] object-cover rounded-3xl shadow-lg border border-[var(--color-border)] hover:rotate-2 transition-transform duration-500"
-            />
+
+        <div class="flex-shrink-0 order-1 lg:order-2 relative group">
+            <div class="flex-shrink-0 order-1 lg:order-2 relative group">
+                <div class="absolute -top-6 -right-6 z-20">
+                    <div class="relative flex items-center justify-center">
+                        <div class="absolute inset-0 bg-red-500/20 dark:bg-white/20 rounded-full blur-xl animate-pulse"></div>
+
+                        <div class="relative bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-zinc-200 dark:border-zinc-700 px-5 py-4 rounded-2xl shadow-2xl rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-all duration-500 ease-out cursor-default">
+                            <div class="flex flex-col items-center gap-0.5">
+
+                                <span class="flex h-3 w-3 items-center justify-center mb-1">
+                        <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-red-500 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
+                    </span>
+
+                                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black dark:text-white whitespace-nowrap">
+                        Attention!
+                    </span>
+                                <span class="text-[9px] font-black uppercase tracking-[0.1em] text-zinc-500 dark:text-zinc-400 whitespace-nowrap">
+                        This website is still
+                    </span>
+                                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black dark:text-white whitespace-nowrap">
+                        In Development
+                    </span>
+
+                                <div class="h-[1px] w-full bg-zinc-200 dark:bg-zinc-700 my-2"></div>
+
+                                <span class="text-[8px] font-bold text-red-600 dark:text-red-400 uppercase tracking-tighter">
+                        v2.0
+                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <Image
+                        src={profilePhoto}
+                        alt="Anna"
+                        width={600}
+                        height={600}
+                        quality="high"
+                        loading="eager"
+                        class="w-64 h-64 md:w-80 md:h-80 lg:w-[450px] lg:h-[450px] xl:w-[510px] xl:h-[506px] object-cover rounded-[2.5rem] shadow-2xl border border-zinc-200 dark:border-zinc-800 transition-all duration-500 group-hover:rotate-1"
+                />
+        </div>
         </div>
     </section>
 </Layout>
