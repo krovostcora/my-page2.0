@@ -1,4 +1,16 @@
 ---
-import { BASE_URL } from '../utils/base';
+// src/pages/index.astro
+const base = import.meta.env.BASE_URL;
 ---
-<meta http-equiv="refresh" content={`0;url=${BASE_URL}en/`} />
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <script is:inline define:vars={{ base }}>
+        const VALID_LANGS = ['en', 'uk', 'es'];
+        const saved = localStorage.getItem('lang');
+        const lang = VALID_LANGS.includes(saved) ? saved : 'en';
+        window.location.replace(base + lang + '/');
+    </script>
+</head>
+<body></body>
+</html>

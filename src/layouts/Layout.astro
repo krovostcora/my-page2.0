@@ -56,7 +56,7 @@ const locales = [
 
 <nav id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-dark h-16 flex items-center transition-transform duration-300">
     <div class="flex items-center justify-between w-full px-6 md:px-12">
-            <a href={`${BASE_URL}${lang}/`} class="w-10 h-10 flex-shrink-0 hover:opacity-80 transition-opacity">
+        <a href={`${BASE_URL}${lang}/`} class="w-10 h-10 flex-shrink-0 hover:opacity-80 transition-opacity">
             <Logo class="w-full h-full text-white" />
         </a>
 
@@ -73,6 +73,7 @@ const locales = [
                 <ThemeIcon class="text-muted group-hover:text-white transition-colors" />
             </button>
 
+            <!-- Language switcher -->
             <div class="relative group">
                 <button class="group w-6 h-6 flex items-center justify-center" title="Toggle language">
                     <LangIcon class="text-muted group-hover:text-white transition-colors" />
@@ -80,12 +81,12 @@ const locales = [
                 <div class="absolute right-0 mt-0 pt-2 w-20 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all">
                     <div class="bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-xl overflow-hidden">
                         {locales.map((loc) => (
-                                <a
-                                        href={`${BASE_URL}${loc.code}/`}
-                                        class={`block px-4 py-2 text-[10px] font-bold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors ${lang === loc.code ? 'text-blue-500' : 'text-black dark:text-white'}`}
+                                <button
+                                        data-lang={loc.code}
+                                        class={`lang-switch-btn w-full text-left px-4 py-2 text-[10px] font-bold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors ${lang === loc.code ? 'text-blue-500' : 'text-black dark:text-white'}`}
                                 >
                                     {loc.label}
-                                </a>
+                                </button>
                         ))}
                     </div>
                 </div>
@@ -122,6 +123,27 @@ const locales = [
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         };
     }
+</script>
+
+<!-- Language switch logic: saves preference + preserves current page -->
+<script is:inline>
+    function switchLanguage(newLang) {
+        // 1. Save preference
+        localStorage.setItem('lang', newLang);
+
+        // 2. Replace the lang segment in the current URL
+        //    Handles: /base/en/, /base/en/projects, /base/en/projects/123
+        const path = window.location.pathname;
+        const newPath = path.replace(/\/(en|uk|es)(\/|$)/, '/' + newLang + '$2');
+
+        window.location.href = newPath;
+    }
+
+    document.querySelectorAll('.lang-switch-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            switchLanguage(this.dataset.lang);
+        });
+    });
 </script>
 
 <script>
