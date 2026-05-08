@@ -31,7 +31,7 @@ const t = useTranslations(currentLang);
         </div>
 
         <div class="max-w-[880px] mx-auto flex flex-col gap-32">
-            {jobs.map((job) => (
+            {jobs.map((job, jobIndex) => (
                     <section data-work-section class="group">
                         <div class="flex items-center gap-4 mb-8">
                             <div class="h-0.5 bg-[var(--color-accent)] flex-grow opacity-30"></div>
@@ -41,7 +41,7 @@ const t = useTranslations(currentLang);
                             <div class="h-0.5 bg-border w-24 opacity-50"></div>
                         </div>
 
-                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-text mb-10 group-hover: transition-colors duration-300">
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-text mb-10 transition-colors duration-300">
                             {job.title[currentLang] || job.title.en}
                         </h2>
 
@@ -96,19 +96,49 @@ const t = useTranslations(currentLang);
                             </div>
 
                             {job.images.length > 1 && (
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                        {job.images.map((img) => (
-                                                <div class="overflow-hidden rounded-xl border border-border aspect-square md:aspect-video lg:aspect-square">
-                                                    <Image
-                                                            src={img}
-                                                            alt="Work experience image"
-                                                            width={500}
-                                                            height={400}
-                                                            quality="mid"
-                                                            class="w-full h-full object-cover"
-                                                    />
+                                    <div class="relative">
+                                        {/* mobile caroucel */}
+                                        <div class="md:hidden overflow-hidden rounded-xl border border-border bg-zinc-950 shadow-lg">
+                                            <div class="relative aspect-square w-full overflow-hidden">
+                                                <div
+                                                        data-carousel-id={jobIndex}
+                                                        class="job-carousel flex h-full w-full cursor-grab active:cursor-grabbing scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden overflow-x-auto snap-x snap-mandatory gap-0"
+                                                >
+                                                    {job.images.map((img, imgIndex) => (
+                                                            <div class="min-w-full h-full flex-shrink-0 select-none snap-center">
+                                                                <Image
+                                                                        src={img}
+                                                                        alt={`Work experience ${imgIndex + 1}`}
+                                                                        width={800}
+                                                                        quality="mid"
+                                                                        class="w-full h-full object-cover pointer-events-none"
+                                                                />
+                                                            </div>
+                                                    ))}
                                                 </div>
-                                        ))}
+                                            </div>
+                                            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 pointer-events-none">
+                                                {job.images.map(() => (
+                                                        <div class="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* desktop grid */}
+                                        <div class="hidden md:grid grid-cols-3 gap-4">
+                                            {job.images.map((img) => (
+                                                    <div class="overflow-hidden rounded-xl border border-border aspect-square">
+                                                        <Image
+                                                                src={img}
+                                                                alt="Work experience image"
+                                                                width={500}
+                                                                height={500}
+                                                                quality="mid"
+                                                                class="w-full h-full object-cover"
+                                                        />
+                                                    </div>
+                                            ))}
+                                        </div>
                                     </div>
                             )}
                         </div>
@@ -119,9 +149,8 @@ const t = useTranslations(currentLang);
 </Layout>
 
 <script>
-    function initScrollFocus() {
+    function initWorkPage() {
         const sections = document.querySelectorAll('[data-work-section]');
-
         const observerOptions = {
             root: null,
             rootMargin: '-25% 0px -25% 0px',
@@ -141,9 +170,38 @@ const t = useTranslations(currentLang);
         }, observerOptions);
 
         sections.forEach(section => observer.observe(section));
+
+        const carousels = document.querySelectorAll('.job-carousel');
+
+        carousels.forEach(carousel => {
+            let isDown = false;
+            let startX: number;
+            let scrollLeft: number;
+
+            carousel.addEventListener('mousedown', (e: any) => {
+                isDown = true;
+                startX = e.pageX - (carousel as HTMLElement).offsetLeft;
+                scrollLeft = carousel.scrollLeft;
+                carousel.classList.remove('scroll-smooth');
+            });
+
+            carousel.addEventListener('mouseleave', () => { isDown = false; });
+            carousel.addEventListener('mouseup', () => {
+                isDown = true;
+                isDown = false;
+                carousel.classList.add('scroll-smooth');
+            });
+
+            carousel.addEventListener('mousemove', (e: any) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - (carousel as HTMLElement).offsetLeft;
+                const walk = (x - startX) * 2;
+                carousel.scrollLeft = scrollLeft - walk;
+            });
+        });
     }
 
-    initScrollFocus();
-
-    document.addEventListener('astro:after-swap', initScrollFocus);
+    initWorkPage();
+    document.addEventListener('astro:after-swap', initWorkPage);
 </script>
