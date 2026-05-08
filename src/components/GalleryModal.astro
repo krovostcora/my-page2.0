@@ -76,7 +76,6 @@
             if (modalYear) modalYear.textContent = year;
             if (modalMaterial) modalMaterial.textContent = material;
 
-            // Динамічне розбиття на абзаци
             if (modalDescContainer) {
                 modalDescContainer.innerHTML = '';
                 const paragraphs = desc.split(/\n\s*\n/).filter(p => p.trim() !== '');
@@ -101,7 +100,6 @@
             document.body.style.overflow = '';
         };
 
-        // Слухаємо кліки на картках
         document.querySelectorAll('[data-gallery-item]').forEach(item => {
             item.addEventListener('click', () => {
                 openModal(
@@ -114,7 +112,6 @@
             });
         });
 
-        // Кнопки закриття
         document.getElementById('modal-close-x')?.addEventListener('click', closeModal);
         document.getElementById('modal-close-btn')?.addEventListener('click', closeModal);
         document.getElementById('gallery-overlay')?.addEventListener('click', closeModal);
@@ -124,7 +121,6 @@
         });
     }
 
-    // Запуск
     initLightbox();
     document.addEventListener('astro:after-swap', initLightbox);
 </script>
