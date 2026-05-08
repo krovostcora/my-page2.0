@@ -1,3 +1,5 @@
+/* global.css */
+
 @font-face {
     font-family: 'KyivTypeSans';
     src: url('/my-page2.0/fonts/KyivTypeSans-Regular-.woff2') format('woff2');
@@ -26,12 +28,10 @@
     --color-border:         #e4e4e7;
     --color-border-strong:  #a1a1aa;
 
-    /* Accent — приглушений жовтий, використовується точково */
     --color-accent:         #c9a84c;
     --color-accent-hover:   #b8963d;
     --color-accent-text:    #ffffff;
 
-    /* Navigation — завжди темна */
     --color-nav:            #0D0D0D;
     --color-nav-pill:       #1A1A1A;
     --color-nav-text:       #A0A0A0;
@@ -61,4 +61,37 @@ body {
     background-color: var(--color-bg);
     color: var(--color-text);
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Scroll focus ── */
+
+/* Basic state */
+[data-work-section] {
+    transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s ease;
+    will-change: opacity, filter, transform;
+}
+
+/* Non-active state */
+[data-work-section].is-not-active {
+    opacity: 0.25;
+    filter: blur(4px);
+    transform: scale(0.98);
+    pointer-events: none;
+}
+
+/* Active state */
+[data-work-section].is-active {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
