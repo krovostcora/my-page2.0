@@ -3,6 +3,7 @@ import type {MultilangText} from "./projects.ts";
 import type {ImageMetadata} from 'astro';
 
 export interface Job {
+    period?: string;
     title: MultilangText;
     text: MultilangText;
     images: ImageMetadata[];
@@ -21,12 +22,15 @@ import badplace1 from "../assets/jobs/BadPlace3_dithered.webp";
 import badplace2 from "../assets/jobs/BadPlace2_dithered.webp";
 import badplace3 from "../assets/jobs/BadPlace_dithered.webp";
 import iom from "../assets/jobs/IOM_dithered.webp";
+import cotera from "../assets/jobs/Cotera_dithered.webp";
+import cotera1 from "../assets/jobs/Cotera1_dithered.webp";
 
 const BASE_URL = import.meta.env.BASE_URL;
 
 export const jobs: Job[] = [
     {
         id: 'vodafone',
+        period: "2019",
         title: {
             en: 'The First Step: Vodafone Promoter',
             uk: 'Перший крок: Промоутер Vodafone',
@@ -42,6 +46,7 @@ export const jobs: Job[] = [
     },
     {
         id: 'barista1',
+        period: "2019 - 2020",
         title: {
             en: 'The Coffee Era: Barista',
             uk: 'Ера кави: Бариста',
@@ -57,6 +62,7 @@ export const jobs: Job[] = [
     },
     {
         id: 'blablacar',
+        period: "2021",
         title: {
             en: 'The Office Life: BlaBlaCar Support',
             uk: 'Офісне життя: Служба підтримки BlaBlaCar',
@@ -72,6 +78,7 @@ export const jobs: Job[] = [
     },
     {
         id: 'barista2',
+        period: "2022",
         title: {
             en: 'The Tough Chapter: Barista & All-rounder',
             uk: 'Непростий етап: бариста та універсал',
@@ -87,6 +94,7 @@ export const jobs: Job[] = [
     },
     {
         id: 'iom',
+        period: "2022 -2024",
         title: {
             en: 'International Organization for Migration (IOM)',
             uk: 'Міжнародна організація з міграції (МОМ)',
@@ -102,6 +110,7 @@ export const jobs: Job[] = [
     },
     {
         id: 'pollen-meteo',
+        period: "2025",
         title: {
             en: 'Internship at VUŠA: Full Stack Developer',
             uk: 'Стажування в VUŠA: Full Stack Developer',
@@ -115,5 +124,22 @@ export const jobs: Job[] = [
         images: [],
         layout: 'text-right',
         projectLink: `${BASE_URL}projects/pollen-meteo`
+    },
+    {
+        id: 'cotera',
+        period: "2025",
+        title: {
+            en: 'Erasmus+ Traineeship: Mobile Developer',
+            uk: 'Erasmus+ стажування: Мобільний розробник',
+            es: 'Prácticas Erasmus+: Desarrolladora Móvil'
+        },
+        text: {
+            en: `After a semester of studying in Spain, returning for a professional internship felt like a natural and exciting next step. This summer experience at a local tech studio was a period of intense learning and adaptation. \n\nI transitioned from academic projects to building a real-world event management application using React Native and Tailwind — my first hands-on experience with these technologies. \n\nBeyond the code, this was my first experience with a consistent office routine. What initially felt intimidating soon became a highlight: the professional environment, the "pinchos" during lunch breaks, and the collaborative atmosphere completely changed my perspective on office culture. I left with a completed app, a gift book on Design Patterns, and the confidence that I can be truly productive in a professional team.`,
+            uk: `Після навчального семестру в Іспанії, повернення на професійне стажування стало логічним та захопливим кроком. Цей досвід у місцевій технологічній студії став періодом інтенсивного навчання та адаптації.\n\nЯ перейшла від академічних проектів до розробки реального додатка для управління подіями, використовуючи React Native та Tailwind — це був мій перший практичний досвід із цим стеком.\n\nОкрім коду, це був мій перший досвід регулярної роботи в офісі. Те, що спочатку здавалося незвичним і «занадто серйозним», швидко стало улюбленою частиною дня: професійне середовище, традиційні перекуси «пінчос» під час обідніх перерв та атмосфера співпраці повністю змінили моє сприйняття офісної культури. Я завершила стажування з готовим додатком, подарованою книгою з патернів проектування та впевненістю у власній продуктивності в команді.`,
+            es: `Tras un semestre de estudios en España, regresar para unas prácticas profesionales fue un paso natural y emocionante. Esta experiencia de verano en un estudio tecnológico local fue un periodo de intenso aprendizaje y adaptación.\n\nPasé de los proyectos académicos a la creación de una aplicación real para la gestión de eventos utilizando React Native y Tailwind, mi primera experiencia práctica con estas tecnologías.\n\nMás allá del código, esta fue mi primera experiencia con una rutina de oficina constante. Lo que al principio me intimidaba, pronto se convirtió en lo mejor de la experiencia: el entorno profesional, los pinchos en los descansos y el ambiente colaborativo cambiaron por completo mi perspectiva sobre el trabajo presencial. Me fui con una app terminada, un libro de regalo sobre Patrones de Diseño y la confianza de saber que puedo ser productiva en un equipo profesional.`
+        },
+        images: [cotera, cotera1],
+        layout: 'text-right',
+        projectLink: `${BASE_URL}projects/cronostera`
     }
 ];
