@@ -63,6 +63,11 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+#mobile-menu nav.flex a.mobile-link {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important; /* Для Safari на iPhone */
+    opacity: 1 !important;
+}
 /* ── Scroll focus ── */
 
 /* Basic state */
